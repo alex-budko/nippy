@@ -17,13 +17,17 @@ import {
   FiCompass,
   FiSettings,
   FiMenu,
+  FiCreditCard,
 } from "react-icons/fi";
 
+import { Link as ReactLink } from "react-router-dom";
+
 const LinkItems = [
-  { name: "Home", icon: FiHome },
-  { name: "Trending", icon: FiTrendingUp },
-  { name: "Explore", icon: FiCompass },
-  { name: "Settings", icon: FiSettings },
+  { name: "Home", icon: FiHome, href: '' },
+  { name: "Predict", icon: FiTrendingUp, href: '/predict'},
+  { name: "Explore", icon: FiCompass, href: '/explore'},
+  {name: "Deposit", icon: FiCreditCard, href: '/deposit'},
+  { name: "Settings", icon: FiSettings, href: '/settings'},
 ];
 
 export default function Sidebar({ children }) {
@@ -68,13 +72,13 @@ const SidebarContent = ({ onClose, ...rest }) => {
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
+        <Text as={ReactLink} to="/" cursor="pointer" _hover={{color: 'blue.300'}} fontSize="2xl" fontFamily="monospace" fontWeight="bold">
           Nippy
         </Text>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
+        <NavItem key={link.name} href={link.href} icon={link.icon}>
           {link.name}
         </NavItem>
       ))}
@@ -82,10 +86,11 @@ const SidebarContent = ({ onClose, ...rest }) => {
   );
 };
 
-const NavItem = ({ icon, children, ...rest }) => {
+const NavItem = ({ icon, children, href, ...rest }) => {
   return (
     <Link
-      href="#"
+      as={ReactLink}
+      to={href}
       style={{ textDecoration: "none" }}
       _focus={{ boxShadow: "none" }}
     >
@@ -138,8 +143,8 @@ const MobileNav = ({ onOpen, ...rest }) => {
         icon={<FiMenu />}
       />
 
-      <Text fontSize="2xl" ml="8" fontFamily="monospace" fontWeight="bold">
-        Logo
+      <Text as={ReactLink} _hover={{color: 'blue.300'}} to="/" cursor="pointer" fontSize="2xl" ml="8" fontFamily="monospace" fontWeight="bold">
+        Nippy
       </Text>
     </Flex>
   );
