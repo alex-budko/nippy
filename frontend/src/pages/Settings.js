@@ -3,8 +3,6 @@ import {
   Center,
   useColorModeValue,
   Heading,
-  Text,
-  Stack,
 } from "@chakra-ui/react";
 
 export default function Settings() {
