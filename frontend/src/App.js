@@ -7,7 +7,7 @@ import Sidebar from "./layout/Sidebar";
 import Deposit from "./pages/Deposit";
 import Explore from "./pages/Explore";
 import Home from "./pages/Home";
-import Predict from "./pages/Predict";
+import Buy from "./pages/Buy";
 import Settings from "./pages/Settings";
 function App() {
   let [a, setA] = useState(false);
@@ -32,7 +32,7 @@ function App() {
         </Wrap>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="predict" element={<Predict />} />
+          <Route path="buy" element={<Buy />} />
           <Route path="deposit" element={<Deposit />} />
           <Route path="explore" element={<Explore />} />
           <Route path="settings" element={<Settings />} />

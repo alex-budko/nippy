@@ -24,7 +24,7 @@ import { Link as ReactLink } from "react-router-dom";
 
 const LinkItems = [
   { name: "Home", icon: FiHome, href: '' },
-  { name: "Predict", icon: FiTrendingUp, href: '/predict'},
+  { name: "Buy V-Stocks", icon: FiTrendingUp, href: '/buy'},
   { name: "Explore", icon: FiCompass, href: '/explore'},
   {name: "Deposit", icon: FiCreditCard, href: '/deposit'},
   { name: "Settings", icon: FiSettings, href: '/settings'},
