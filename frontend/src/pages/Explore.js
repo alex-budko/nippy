@@ -4,8 +4,8 @@ import {
   Heading,
   VStack,
   Spinner,
-  AbsoluteCenter,
   Box,
+  Wrap,
 } from "@chakra-ui/react";
 import Plot from "react-plotly.js";
 
@@ -32,6 +32,8 @@ function Explore() {
       b: 40,
       l: 60,
     },
+    width: 425,
+    height: 220,
     showlegend: false,
     xaxis: {
       autorange: true,
@@ -47,9 +49,22 @@ function Explore() {
 
   const config = {
     displaylogo: false,
+    displayModeBar: false
   };
 
-  const companies = ["IBM", "AMZN", "TSLA", "ABBV", "ABEO", "GOOG"];
+  const companies = [
+    "IBM",
+    "AMZN",
+    "TSLA",
+    "ABBV",
+    "ABEO",
+    "GOOG",
+    "ADBE",
+    "ATVI",
+    "EBAY",
+    "EA",
+    "INTC",
+  ];
 
   const [stockChartData, setStockChartData] = useState(
     Array.from(
@@ -64,9 +79,10 @@ function Explore() {
 
   const fillStockChart = async (name, index) => {
     let newStockChartData = [...stockChartData];
-    await fetch(`http://localhost:8000/api/stock/${name}/`)
+    await fetch(`${process.env.REACT_APP_BACKEND_URL}/stock/${name}/`)
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         data = data.data;
         for (let key in data["Time Series (5min)"]) {
           let allData = { ...data["Time Series (5min)"][key] };
@@ -96,14 +112,15 @@ function Explore() {
 
   return (
     <Center>
-      <VStack>
+      <Wrap align={"center"} justify="center">
         {!loadingCharts ? (
           companies.map((company, i) => {
             return (
-              <Box
+              <VStack
                 rounded={"lg"}
                 shadow={"dark-lg"}
                 bgColor="gray.900"
+                
                 p="5"
                 m="5"
                 key={i * 41 + 34}
@@ -117,15 +134,30 @@ function Explore() {
                   layout={stockChartLayout}
                   config={config}
                 />
-              </Box>
+              </VStack>
             );
           })
         ) : (
-          <AbsoluteCenter>
-            <Spinner size="xl" />
-          </AbsoluteCenter>
+          <Box position={"relative"} top="40vh">
+            <Center>
+              <VStack spacing={4} align="stretch">
+                <Heading as="h3" size="xl" display={"block"}>
+                  Loading Your Data...
+                </Heading>
+                <Center>
+                  <Spinner
+                    display={"block"}
+                    thickness="4px"
+                    speed="0.65s"
+                    color="blue.500"
+                    size="xl"
+                  />
+                </Center>
+              </VStack>
+            </Center>
+          </Box>
         )}
-      </VStack>
+      </Wrap>
     </Center>
   );
 }

@@ -1,35 +1,33 @@
-from email.policy import default
 from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
 
 class UserAccountManager(BaseUserManager):
-    def create_user(self, email, money, username, password=None):
+    def create_user(self, email, username, password=None):
         if not email:
             raise ValueError('Users must have an email address')
 
         user = self.model(
-            money,
             email=self.normalize_email(email),
             username=username,
         )
 
         user.set_password(password)
-        user.save()
+        print(user.password)
+        user.save(using=self._db)
 
         return user
 
-    def create_superuser(self, email, money, username, password=None):
+    def create_superuser(self, email, username, password=None):
         user = self.create_user(
             email,
-            money,
             password=password,
             username=username,
         )
 
         user.is_admin = True
-        user.save()
+        user.save(using=self._db)
 
         return user
 
@@ -75,12 +73,13 @@ class UserAccount(AbstractBaseUser):
         return self.email
 
 class Stock(models.Model):
-    def default_data():
-        return {"data": "none"}
 
+    def default_data():
+        return {"data":"none"}
+        
     name = models.CharField(default='NOT_FOUND', max_length=265, unique=True)
     price = models.FloatField(default=0.0)
-    data = models.JSONField(default=default_data)
+    data = models.JSONField(default={"data":"none"})
 
     def __str__(self):
         return self.name

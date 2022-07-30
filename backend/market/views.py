@@ -11,6 +11,15 @@ import environ
 env = environ.Env()
 environ.Env.read_env()
 
+# ["IBM", "AMZN", "TSLA", "ABBV", "ABEO", "GOOG"]
+
+# ["ADBE", "ATVI", "EBAY", "EA", "INTC"]
+
+def add_stocks(stock_array):
+    for stock in stock_array:
+        Stock.objects.create(name=stock)
+
+
 def update_stock_data():
     all_stocks = Stock.objects.all()
 
@@ -58,15 +67,19 @@ class ReadOnly(BasePermission):
         return request.method in SAFE_METHODS
 
 class UserCreate(generics.CreateAPIView):
-    permission_classes = [IsAdminUser|ReadOnly]
+    # permission_classes = [IsAdminUser|ReadOnly]
     queryset = UserAccount.objects.all()
     serializer_class = UserAccountSerializer
 
 class UserRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated|ReadOnly]
+    # permission_classes = [IsAuthenticated|ReadOnly]
     queryset = UserAccount.objects.all()
     serializer_class = UserAccountSerializer
     lookup_field='username'
+
+class UserList(generics.ListAPIView):
+    queryset = UserAccount.objects.all()
+    serializer_class = UserAccountSerializer
 
 class StockList(generics.ListAPIView):
 

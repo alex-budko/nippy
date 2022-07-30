@@ -14,7 +14,7 @@ function Buy() {
 
   const getStocks = async () => {
     setStocks([]);
-    await fetch(`http://localhost:8000/api/stocks/`)
+    await fetch(`${process.env.REACT_APP_BACKEND_URL}/stocks/`)
       .then((res) => res.json())
       .then((data) => {
         for (let item = 0; item < data.length; item++) {
