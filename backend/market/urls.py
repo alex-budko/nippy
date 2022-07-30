@@ -1,7 +1,10 @@
 from django.urls import path
-from .views import UserCreate, UserRetrieveUpdateDestroy
+from .views import StockCreate, StockRetrieveUpdateDestroy, UserCreate, UserRetrieveUpdateDestroy, StockList
 
 urlpatterns = [
     path('user/', UserCreate.as_view(), name='user-create'),
-    path('user/<slug:username>/', UserRetrieveUpdateDestroy.as_view(), name='user-rud')
+    path('user/<slug:username>/', UserRetrieveUpdateDestroy.as_view(), name='user-rud'),
+    path('stock/', StockCreate.as_view(), name='stock-create'),
+    path('stocks/', StockList.as_view(), name='stock-list'),
+    path('stock/<slug:name>/', StockRetrieveUpdateDestroy.as_view(), name='stock-rud'),
 ]

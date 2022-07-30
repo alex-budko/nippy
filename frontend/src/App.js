@@ -22,10 +22,10 @@ function App() {
           ) : (
             <>
               <WrapItem>
-                <Button as={Link} to='/login' colorScheme="green">Log In</Button>
+                <Button as={Link} to='/login' bgColor="green.600">Log In</Button>
               </WrapItem>
               <WrapItem>
-                <Button as={Link} to='/signup' colorScheme="red">Sign Up</Button>
+                <Button as={Link} to='/signup' bgColor="red.600">Sign Up</Button>
               </WrapItem>
             </>
           )}

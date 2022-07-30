@@ -1,3 +1,4 @@
+from email.policy import default
 from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
@@ -72,3 +73,15 @@ class UserAccount(AbstractBaseUser):
 
     def __str__(self):
         return self.email
+
+class Stock(models.Model):
+    def default_data():
+        return {"data": "none"}
+
+    name = models.CharField(default='NOT_FOUND', max_length=265, unique=True)
+    price = models.FloatField(default=0.0)
+    data = models.JSONField(default=default_data)
+
+    def __str__(self):
+        return self.name
+
