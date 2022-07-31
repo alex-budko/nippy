@@ -4,26 +4,42 @@ from django.contrib.auth.models import (
 )
 
 class UserAccountManager(BaseUserManager):
-    def create_user(self, email, username, password=None):
+    def create(self, username, email, money=500000, password=None):
         if not email:
             raise ValueError('Users must have an email address')
 
         user = self.model(
             email=self.normalize_email(email),
             username=username,
+            money=money
         )
 
         user.set_password(password)
-        print(user.password)
         user.save(using=self._db)
 
         return user
 
-    def create_superuser(self, email, username, password=None):
+    def create_user(self, username, email, money=500000, password=None):
+        if not email:
+            raise ValueError('Users must have an email address')
+
+        user = self.model(
+            email=self.normalize_email(email),
+            username=username,
+            money=money
+        )
+
+        user.set_password(password)
+        user.save(using=self._db)
+
+        return user
+
+    def create_superuser(self, email, username, money=500000, password=None):
         user = self.create_user(
             email,
             password=password,
             username=username,
+            money=money,
         )
 
         user.is_admin = True

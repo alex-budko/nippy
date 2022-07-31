@@ -1,4 +1,7 @@
+import email
 import time
+
+from platformdirs import user_config_dir
 from .models import Stock, UserAccount
 from .serializers import UserAccountSerializer, StockSerializer
 from rest_framework import generics
@@ -11,10 +14,7 @@ import environ
 env = environ.Env()
 environ.Env.read_env()
 
-# ["IBM", "AMZN", "TSLA", "ABBV", "ABEO", "GOOG"]
-
-# ["ADBE", "ATVI", "EBAY", "EA", "INTC"]
-
+# ["IBM", "AMZN", "TSLA", "ABBV", "ABEO", "GOOG", "ADBE", "ATVI", "EBAY", "EA", "INTC"]
 def add_stocks(stock_array):
     for stock in stock_array:
         Stock.objects.create(name=stock)
@@ -47,8 +47,6 @@ def update_stock_data():
 
         response2 = requests.get(url2)
 
-        
-
         data = response1.json()
         price_data = response2.json()
 
@@ -66,18 +64,13 @@ class ReadOnly(BasePermission):
     def has_permission(self, request, view):
         return request.method in SAFE_METHODS
 
-class UserCreate(generics.CreateAPIView):
-    # permission_classes = [IsAdminUser|ReadOnly]
-    queryset = UserAccount.objects.all()
-    serializer_class = UserAccountSerializer
-
 class UserRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     # permission_classes = [IsAuthenticated|ReadOnly]
     queryset = UserAccount.objects.all()
     serializer_class = UserAccountSerializer
     lookup_field='username'
 
-class UserList(generics.ListAPIView):
+class UserListCreate(generics.ListCreateAPIView):
     queryset = UserAccount.objects.all()
     serializer_class = UserAccountSerializer
 
