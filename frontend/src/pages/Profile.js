@@ -1,12 +1,11 @@
-import React, { useContext } from 'react'
-import { UserContext } from '../user-context/UserContext'
+import React, { useContext } from "react";
+import { UserContext } from "../user-context/UserContext";
 
 function Profile() {
+  const { user } = useContext(UserContext);
+  const {username, email, password} = user
 
-    const {user, setUser} = useContext(UserContext)
-  return (
-    <div>{JSON.stringify(user, null, 2)}</div>
-  )
+  return <div>{username}</div>;
 }
 
-export default Profile
+export default Profile;

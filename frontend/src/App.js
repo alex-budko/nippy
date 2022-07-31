@@ -15,7 +15,7 @@ import { UserContext } from "./user-context/UserContext";
 import Profile from "./pages/Profile";
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null);
 
   const _user = useMemo(() => ({ user, setUser }), [user, setUser]);
 
@@ -25,8 +25,8 @@ function App() {
         <Sidebar>
           <Wrap justify={"right"}>
             {user ? (
-              <WrapItem>
-                <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
+              <WrapItem _hover={{cursor: 'pointer'}}>
+                <Avatar as={Link} to={`/profile/${user.username}`} name={`${user.username}`} />
               </WrapItem>
             ) : (
               <>

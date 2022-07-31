@@ -4,6 +4,7 @@ import {
   Center,
   Heading,
   Text,
+  useColorModeValue,
   Wrap,
   WrapItem,
 } from "@chakra-ui/react";
@@ -14,7 +15,7 @@ function Buy() {
 
   const getStocks = async () => {
     setStocks([]);
-    await fetch(`${process.env.REACT_APP_BACKEND_URL}/stocks/`)
+    await fetch(`${process.env.REACT_APP_BACKEND_URL}/market/stocks/`)
       .then((res) => res.json())
       .then((data) => {
         for (let item = 0; item < data.length; item++) {
@@ -34,6 +35,8 @@ function Buy() {
     getStocks();
   }, []);
 
+  const colorMode = useColorModeValue('gray.50', 'gray.800')
+
   return (
     <Wrap spacing="10" p="10" align="center" justify={"center"}>
       {stocks !== [] &&
@@ -47,9 +50,9 @@ function Buy() {
                 p="5"
                 _hover={{ cursor: "pointer" }}
               >
-                <Heading>{stock.name}</Heading>
+                <Heading color={colorMode}>{stock.name}</Heading>
                 <Center>
-                  <Text>${stock.price}</Text>
+                  <Text color={colorMode}>${stock.price}</Text>
                 </Center>
               </Box>
             </WrapItem>

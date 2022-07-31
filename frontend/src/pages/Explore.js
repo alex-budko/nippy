@@ -6,6 +6,7 @@ import {
   Spinner,
   Box,
   Wrap,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import Plot from "react-plotly.js";
 
@@ -79,7 +80,7 @@ function Explore() {
 
   const fillStockChart = async (name, index) => {
     let newStockChartData = [...stockChartData];
-    await fetch(`${process.env.REACT_APP_BACKEND_URL}/stock/${name}/`)
+    await fetch(`${process.env.REACT_APP_BACKEND_URL}/market/stock/${name}/`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -110,6 +111,8 @@ function Explore() {
     }
   }, []);
 
+  const colorMode = useColorModeValue('gray.50', 'gray.800')
+
   return (
     <Center>
       <Wrap align={"center"} justify="center">
@@ -126,7 +129,7 @@ function Explore() {
                 key={i * 41 + 34}
               >
                 <Center>
-                  <Heading key={40 * i + 4}>{company}</Heading>
+                  <Heading color={colorMode}key={40 * i + 4}>{company}</Heading>
                 </Center>
                 <Plot
                   key={30 * i + 2}

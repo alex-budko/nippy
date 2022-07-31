@@ -1,4 +1,3 @@
-import email
 import time
 
 from platformdirs import user_config_dir
@@ -6,6 +5,9 @@ from .models import Stock, UserAccount
 from .serializers import UserAccountSerializer, StockSerializer
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, SAFE_METHODS, BasePermission, IsAdminUser
+
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 import requests
 
@@ -91,3 +93,17 @@ class StockRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     lookup_field='name'
 
 
+class ModdedTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        # Custom claims
+        token['username'] = user.username
+        token['email'] = user.email
+        token['money'] = user.money
+
+        return token
+
+class ModdedTokenObtainPairView(TokenObtainPairView):
+    serializer_class = ModdedTokenObtainPairSerializer
