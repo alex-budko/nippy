@@ -41,7 +41,6 @@ function App() {
               <WrapItem _hover={{ cursor: "pointer" }}>
                 <Avatar
                   as={Link}
-                  bgColor="blue.400"
                   to={`/profile/${user.username}`}
                   name={`${user.username}`}
                 />

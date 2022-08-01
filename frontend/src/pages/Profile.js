@@ -60,7 +60,6 @@ function Profile() {
             <Center>
               <Avatar
                 _hover={{ cursor: "pointer" }}
-                bgColor="blue.400"
                 name={profileUser.username}
                 size={"2xl"}
               />

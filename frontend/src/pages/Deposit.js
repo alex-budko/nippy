@@ -37,10 +37,11 @@ export default function Deposit() {
   ];
   return (
     <Wrap spacing="5" justify={"center"}>
-      {PURCHASE_OPTIONS.map((option) => {
+      {PURCHASE_OPTIONS.map((option, i) => {
         return (
           <WrapItem>
             <Box
+            key={i}
               role={"group"}
               p={6}
               minW={"240px"}

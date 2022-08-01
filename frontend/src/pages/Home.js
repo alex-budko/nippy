@@ -9,8 +9,8 @@ import {
     useColorModeValue,
   } from '@chakra-ui/react';
   import { BsPerson } from 'react-icons/bs';
-  import { FiServer } from 'react-icons/fi';
-  import { GoLocation } from 'react-icons/go';
+  import { AiOutlineStock } from 'react-icons/ai';
+  import { HiOutlineDesktopComputer } from 'react-icons/hi';
   
   
   function StatsCard(props) {
@@ -56,18 +56,18 @@ import {
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>
           <StatsCard
             title={'Users'}
-            stat={'5,000'}
+            stat={'5,543'}
             icon={<BsPerson size={'3em'} />}
           />
           <StatsCard
-            title={'Servers'}
-            stat={'1,000'}
-            icon={<FiServer size={'3em'} />}
+            title={'Stocks'}
+            stat={'1,539'}
+            icon={<AiOutlineStock size={'3em'} />}
           />
           <StatsCard
-            title={'Datacenters'}
-            stat={'7'}
-            icon={<GoLocation size={'3em'} />}
+            title={'Software Engineers'}
+            stat={'1'}
+            icon={<HiOutlineDesktopComputer size={'3em'} />}
           />
         </SimpleGrid>
       </Box>

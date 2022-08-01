@@ -20,12 +20,17 @@ import {
   FiCreditCard,
 } from "react-icons/fi";
 
+import {
+  ImTrophy
+} from 'react-icons/im'
+
 import { Link as ReactLink } from "react-router-dom";
 
 const LinkItems = [
   { name: "Home", icon: FiHome, href: '' },
-  { name: "Buy V-Stocks", icon: FiTrendingUp, href: '/buy'},
+  { name: "Buy Stocks", icon: FiTrendingUp, href: '/buy'},
   { name: "Explore", icon: FiCompass, href: '/explore'},
+  { name: "Leaderboard", icon: ImTrophy, href: '/leaderboard'},
   {name: "Deposit", icon: FiCreditCard, href: '/deposit'},
   { name: "Settings", icon: FiSettings, href: '/settings'},
 ];
