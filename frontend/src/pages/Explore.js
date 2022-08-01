@@ -9,6 +9,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import Plot from "react-plotly.js";
+import Loader from "../utils/Loader";
 
 function Explore() {
   const CHART_DATA = {
@@ -50,7 +51,7 @@ function Explore() {
 
   const config = {
     displaylogo: false,
-    displayModeBar: false
+    displayModeBar: false,
   };
 
   const companies = [
@@ -83,7 +84,6 @@ function Explore() {
     await fetch(`${process.env.REACT_APP_BACKEND_URL}/market/stock/${name}/`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         data = data.data;
         for (let key in data["Time Series (5min)"]) {
           let allData = { ...data["Time Series (5min)"][key] };
@@ -103,15 +103,16 @@ function Explore() {
   useEffect(() => {
     if (loadingCharts) {
       for (let companyInd = 0; companyInd < companies.length; companyInd++) {
-        fillStockChart(companies[companyInd], companyInd);
-        if (companyInd === companies.length - 1) {
-          setLoadingCharts(false);
-        }
+        fillStockChart(companies[companyInd], companyInd).then(() => {
+          if (companyInd === companies.length - 1) {
+            setLoadingCharts(false)
+          }
+        });
       }
     }
   }, []);
 
-  const colorMode = useColorModeValue('gray.50', 'gray.800')
+  const colorMode = useColorModeValue("gray.50", "gray.200");
 
   return (
     <Center>
@@ -123,13 +124,14 @@ function Explore() {
                 rounded={"lg"}
                 shadow={"dark-lg"}
                 bgColor="gray.900"
-                
                 p="5"
                 m="5"
                 key={i * 41 + 34}
               >
                 <Center>
-                  <Heading color={colorMode}key={40 * i + 4}>{company}</Heading>
+                  <Heading color={colorMode} key={40 * i + 4}>
+                    {company}
+                  </Heading>
                 </Center>
                 <Plot
                   key={30 * i + 2}
@@ -141,24 +143,7 @@ function Explore() {
             );
           })
         ) : (
-          <Box position={"relative"} top="40vh">
-            <Center>
-              <VStack spacing={4} align="stretch">
-                <Heading as="h3" size="xl" display={"block"}>
-                  Loading Your Data...
-                </Heading>
-                <Center>
-                  <Spinner
-                    display={"block"}
-                    thickness="4px"
-                    speed="0.65s"
-                    color="blue.500"
-                    size="xl"
-                  />
-                </Center>
-              </VStack>
-            </Center>
-          </Box>
+          <Loader />
         )}
       </Wrap>
     </Center>

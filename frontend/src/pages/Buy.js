@@ -35,7 +35,7 @@ function Buy() {
     getStocks();
   }, []);
 
-  const colorMode = useColorModeValue('gray.50', 'gray.800')
+  const colorMode = useColorModeValue('gray.50', 'gray.200')
 
   return (
     <Wrap spacing="10" p="10" align="center" justify={"center"}>

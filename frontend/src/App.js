@@ -1,5 +1,5 @@
-import { Avatar, Button, Wrap, WrapItem } from "@chakra-ui/react";
-import { useMemo, useState } from "react";
+import { Avatar, Button, useColorMode, Wrap, WrapItem } from "@chakra-ui/react";
+import { useEffect, useMemo, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import LogIn from "./auth_pages/LogIn";
 import SignUp from "./auth_pages/SignUp";
@@ -15,7 +15,19 @@ import { UserContext } from "./user-context/UserContext";
 import Profile from "./pages/Profile";
 
 function App() {
-  const [user, setUser] = useState(localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null);
+  const [user, setUser] = useState(
+    localStorage.getItem("user")
+      ? JSON.parse(localStorage.getItem("user"))
+      : null
+  );
+
+  const { colorMode, toggleColorMode } = useColorMode();
+
+  useEffect(() => {
+    if (colorMode === "light") {
+      toggleColorMode();
+    }
+  });
 
   const _user = useMemo(() => ({ user, setUser }), [user, setUser]);
 
@@ -25,8 +37,13 @@ function App() {
         <Sidebar>
           <Wrap justify={"right"}>
             {user ? (
-              <WrapItem _hover={{cursor: 'pointer'}}>
-                <Avatar as={Link} to={`/profile/${user.username}`} name={`${user.username}`} />
+              <WrapItem _hover={{ cursor: "pointer" }}>
+                <Avatar
+                  as={Link}
+                  bgColor="blue.400"
+                  to={`/profile/${user.username}`}
+                  name={`${user.username}`}
+                />
               </WrapItem>
             ) : (
               <>
@@ -53,7 +70,7 @@ function App() {
             <Route path="signup" element={<SignUp />} />
             <Route path="login" element={<LogIn />} />
 
-            <Route path="profile/:name" element={<Profile />} />
+            <Route path="profile/:username" element={<Profile />} />
           </Routes>
         </Sidebar>
       </UserContext.Provider>

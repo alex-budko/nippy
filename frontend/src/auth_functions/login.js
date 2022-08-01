@@ -11,25 +11,28 @@ export const login = async (email, password) => {
     email,
     password,
   });
+
+  let user = null;
+
   try {
-    const res = await axios.post(
-      `${process.env.REACT_APP_BACKEND_URL}/api/token/`,
-      body,
-      config
-    );
-    localStorage.setItem("access", res.data.access);
-    localStorage.setItem("refresh", res.data.refresh);
+    await axios
+      .post(`${process.env.REACT_APP_BACKEND_URL}/api/token/`, body, config)
+      .then((res) => {
+        localStorage.setItem("access", res.data.access);
+        localStorage.setItem("refresh", res.data.refresh);
 
-    const user_data = jwt_decode(res.data.access);
+        const user_data = jwt_decode(res.data.access);
 
-    const user = 
-      {
-        username: user_data["username"],
-        email: user_data["email"],
-        money: user_data["money"],
-      }
+        user = {
+          username: user_data["username"],
+          email: user_data["email"],
+          money: user_data["money"],
+        };
+        localStorage.setItem("user", JSON.stringify(user));
+      });
 
-    localStorage.setItem("user", JSON.stringify(user));
+    return user
+    
   } catch (err) {
     return { error: err };
   }
