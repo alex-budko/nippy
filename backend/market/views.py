@@ -102,6 +102,7 @@ class ModdedTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['username'] = user.username
         token['email'] = user.email
         token['money'] = user.money
+        token['stocks'] = user.stocks
 
         return token
 

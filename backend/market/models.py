@@ -59,7 +59,9 @@ class UserAccount(AbstractBaseUser):
     username = models.CharField(
         max_length=265, primary_key=True, unique=True, blank=False)
 
-    money = models.IntegerField(default=500000)
+    money = models.FloatField(default=500000.0)
+
+    stocks = models.JSONField(default=dict({}))
 
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
@@ -95,7 +97,7 @@ class Stock(models.Model):
         
     name = models.CharField(default='NOT_FOUND', max_length=265, unique=True)
     price = models.FloatField(default=0.0)
-    data = models.JSONField(default={"data":"none"})
+    data = models.JSONField(default=dict({"data":"none"}))
 
     def __str__(self):
         return self.name

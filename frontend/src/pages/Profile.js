@@ -9,18 +9,29 @@ import {
   Avatar,
   VStack,
   HStack,
+  Wrap,
+  WrapItem,
+  Text,
+  Button,
 } from "@chakra-ui/react";
 import { useParams } from "react-router";
 import { get_profile } from "../action_functions/get_profile";
+import { sell_stock } from "../action_functions/sell_stock";
 
 function Profile() {
-  // const { user } = useContext(UserContext);
-  // const { username, email, password } = user
+  const { user, setUser } = useContext(UserContext);
+
+  const sellStock = (stock_name) => {
+    sell_stock(user.username, stock_name, setUser).then((upd_user) => {
+      setProfileUser(upd_user);
+    });
+  };
 
   const [profileUser, setProfileUser] = useState({
-    username: "undefined",
-    email: "undefined",
+    username: "",
+    email: "",
     money: 0,
+    stocks: {},
   });
 
   const { username } = useParams();
@@ -48,7 +59,7 @@ function Profile() {
             <Heading>{profileUser.username}'s Profile</Heading>
             <Center>
               <Avatar
-              _hover={{cursor: 'pointer'}}
+                _hover={{ cursor: "pointer" }}
                 bgColor="blue.400"
                 name={profileUser.username}
                 size={"2xl"}
@@ -64,6 +75,35 @@ function Profile() {
               <Heading color={"gray.50"}>34/548</Heading>
             </HStack>
 
+            <Wrap justify={"center"} spacing={5}>
+              {profileUser.stocks !== {} &&
+                Object.keys(profileUser.stocks).map((stock_name, i) => {
+                  if (profileUser.stocks[stock_name] > 0) {
+                    return (
+                      <WrapItem
+                        key={i}
+                        bgColor={"blue.300"}
+                        p="3"
+                        rounded={"2xl"}
+                        shadow="dark-lg"
+                      >
+                        <VStack>
+                          <Heading size={"md"}>{stock_name}</Heading>
+                          <Text>
+                            Quantity: {profileUser.stocks[stock_name]}{" "}
+                          </Text>
+                          {user.username !== "" &&
+                            user.username === profileUser.username && (
+                              <Button onClick={() => sellStock(stock_name)}>
+                                Sell
+                              </Button>
+                            )}
+                        </VStack>
+                      </WrapItem>
+                    );
+                  }
+                })}
+            </Wrap>
           </VStack>
         </Center>
       </Box>

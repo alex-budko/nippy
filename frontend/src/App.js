@@ -13,12 +13,13 @@ import Settings from "./pages/Settings";
 import { UserContext } from "./user-context/UserContext";
 
 import Profile from "./pages/Profile";
+import Leaderboard from "./pages/Leaderboard";
 
 function App() {
   const [user, setUser] = useState(
     localStorage.getItem("user")
       ? JSON.parse(localStorage.getItem("user"))
-      : null
+      : { username: "", email: "", money: 0, stocks: {} }
   );
 
   const { colorMode, toggleColorMode } = useColorMode();
@@ -36,7 +37,7 @@ function App() {
       <UserContext.Provider value={_user}>
         <Sidebar>
           <Wrap justify={"right"}>
-            {user ? (
+            {user.username !== "" ? (
               <WrapItem _hover={{ cursor: "pointer" }}>
                 <Avatar
                   as={Link}
@@ -66,7 +67,7 @@ function App() {
             <Route path="deposit" element={<Deposit />} />
             <Route path="explore" element={<Explore />} />
             <Route path="settings" element={<Settings />} />
-
+            <Route path="leaderboard" element={<Leaderboard />} />
             <Route path="signup" element={<SignUp />} />
             <Route path="login" element={<LogIn />} />
 

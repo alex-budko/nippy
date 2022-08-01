@@ -8,10 +8,26 @@ import {
   Wrap,
   WrapItem,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
+import { buy_stock } from "../action_functions/buy_stock";
+import NotAuthenticated from "../auth_pages/NotAuthenticated";
+import { UserContext } from "../user-context/UserContext";
 
 function Buy() {
-  const [stocks, setStocks] = useState([]);
+  const [_stocks, setStocks] = useState([]);
+
+  const { user, setUser } = useContext(UserContext);
+  const { username, money } = user;
+
+  const buyStock = (e) => {
+    let quantity = 1
+    //username, stock_name, stock_price
+    buy_stock(username, e.target.name, e.target.id, quantity, setUser).then((res)=> {
+      if (res === 'not_enough_money') {
+        console.log("Not Enough Money")
+      }
+    })
+  };
 
   const getStocks = async () => {
     setStocks([]);
@@ -35,30 +51,48 @@ function Buy() {
     getStocks();
   }, []);
 
-  const colorMode = useColorModeValue('gray.50', 'gray.200')
+  const colorMode = useColorModeValue("gray.50", "gray.200");
 
-  return (
-    <Wrap spacing="10" p="10" align="center" justify={"center"}>
-      {stocks !== [] &&
-        stocks.map((stock, i) => {
-          return (
-            <WrapItem key={i}>
-              <Box
-                bgColor={"gray.900"}
-                shadow="dark-lg"
-                rounded={"2xl"}
-                p="5"
-                _hover={{ cursor: "pointer" }}
-              >
-                <Heading color={colorMode}>{stock.name}</Heading>
-                <Center>
-                  <Text color={colorMode}>${stock.price}</Text>
-                </Center>
-              </Box>
-            </WrapItem>
-          );
-        })}
-    </Wrap>
+  return username !== '' ? (
+    <Fragment>
+      <Center>
+        <Heading>Available Money: ${money}</Heading>
+      </Center>
+      <Wrap spacing="10" p="10" align="center" justify={"center"}>
+        {_stocks !== [] &&
+          _stocks.map((stock, i) => {
+            return (
+              <form>
+                <WrapItem key={i}>
+                  <Box
+                    bgColor={"gray.900"}
+                    shadow="dark-lg"
+                    rounded={"2xl"}
+                    p="5"
+                    _hover={{ cursor: "pointer" }}
+                  >
+                    <Heading color={colorMode}>{stock.name}</Heading>
+                    <Center>
+                      <Text color={colorMode}>${stock.price}</Text>
+                    </Center>
+                    <Center>
+                      <Button
+                        name={stock.name}
+                        id={stock.price}
+                        onClick={(e) => buyStock(e)}
+                      >
+                        Buy
+                      </Button>
+                    </Center>
+                  </Box>
+                </WrapItem>
+              </form>
+            );
+          })}
+      </Wrap>
+    </Fragment>
+  ) : (
+    <NotAuthenticated />
   );
 }
 
