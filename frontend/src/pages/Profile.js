@@ -13,21 +13,21 @@ import {
   WrapItem,
   Text,
   Button,
+  Slider,
+  SliderTrack,
+  SliderFilledTrack,
+  SliderThumb,
+  SliderMark,
 } from "@chakra-ui/react";
 import { useParams } from "react-router";
 import { get_profile } from "../action_functions/get_profile";
 import { sell_stock } from "../action_functions/sell_stock";
 import { moneyConvert } from "../utils/moneyConvert";
+import { AiOutlineDollarCircle } from "react-icons/ai";
 
 function Profile() {
   const { user, setUser } = useContext(UserContext);
-
-  const sellStock = (stock_name) => {
-    sell_stock(user.username, stock_name, setUser).then((upd_user) => {
-      setProfileUser(upd_user);
-    });
-  };
-
+  const [sliderValue, setSliderValue] = useState([]);
   const [profileUser, setProfileUser] = useState({
     username: "",
     email: "",
@@ -35,10 +35,40 @@ function Profile() {
     stocks: {},
   });
 
+  const sellStock = (stock_name, quantity) => {
+    setSliderValue(
+      Array.from(
+        {
+          length: Object.keys(profileUser.stocks).length,
+        },
+        () => 1
+      )
+    );
+
+    sell_stock(user.username, stock_name, quantity, setUser).then(
+      (upd_user) => {
+        setProfileUser(upd_user);
+      }
+    );
+  };
+
+  
+
   const { username } = useParams();
 
   useEffect(() => {
-    get_profile(username).then((res) => setProfileUser(res.data));
+    get_profile(username)
+      .then((res) => setProfileUser(res.data))
+      .then(() => {
+        setSliderValue(
+          Array.from(
+            {
+              length: Object.keys(profileUser.stocks).length,
+            },
+            () => 1
+          )
+        );
+      });
   }, []);
 
   return (
@@ -47,11 +77,11 @@ function Profile() {
         role={"group"}
         p={6}
         maxW={"600px"}
-        minH={"550px"}
+        minH={"600px"}
         w={"full"}
         bg={useColorModeValue("white", "gray.800")}
         boxShadow={"2xl"}
-        rounded={"lg"}
+        rounded={"20%"}
         pos={"relative"}
         zIndex={1}
       >
@@ -67,12 +97,14 @@ function Profile() {
             </Center>
             <HStack>
               <Heading color={"blue.600"}>Worth:</Heading>
-              <Heading color={"gray.50"}>${moneyConvert(profileUser.money)}</Heading>
+              <Heading color={"gray.50"}>
+                ${moneyConvert(profileUser.money.toFixed(2))}
+              </Heading>
             </HStack>
 
             <HStack>
               <Heading color={"blue.600"}>Rank:</Heading>
-              <Heading color={"gray.50"}>23/4324</Heading>
+              <Heading color={"gray.50"}>34/548</Heading>
             </HStack>
 
             <Wrap justify={"center"} spacing={5}>
@@ -82,8 +114,9 @@ function Profile() {
                     return (
                       <WrapItem
                         key={i}
-                        bgColor={"blue.300"}
-                        p="3"
+                        bgColor={"red.300"}
+                        px="5"
+                        py={"8"}
                         rounded={"2xl"}
                         shadow="dark-lg"
                       >
@@ -94,9 +127,54 @@ function Profile() {
                           </Text>
                           {user.username !== "" &&
                             user.username === profileUser.username && (
-                              <Button onClick={() => sellStock(stock_name)}>
-                                Sell
-                              </Button>
+                              <>
+                                <Button
+                                  bgColor="blue.300"
+                                  mt="2"
+                                  width={"80%"}
+                                  onClick={() =>
+                                    sellStock(stock_name, sliderValue[i])
+                                  }
+                                >
+                                  Sell
+                                </Button>
+                                <Slider
+                                  aria-label="slider-ex-4"
+                                  value={sliderValue[i]}
+                                  min={1}
+                                  max={profileUser.stocks[stock_name]}
+                                  defaultValue={1}
+                                  onChange={(num) => {
+                                    let newSlider = [...sliderValue];
+                                    newSlider[i] = num;
+                                    setSliderValue(newSlider);
+                                  }}
+                                >
+                                  <SliderTrack bg="red.100">
+                                    <SliderFilledTrack bg="tomato" />
+                                  </SliderTrack>
+
+                                  <SliderThumb boxSize={6}>
+                                    <Box
+                                      color="tomato"
+                                      as={AiOutlineDollarCircle}
+                                    />
+                                  </SliderThumb>
+                                  <SliderMark
+                                    value={sliderValue[i]}
+                                    textAlign="center"
+                                    placement="bottom"
+                                    bg="blue.300"
+                                    color="white"
+                                    rounded={"3xl"}
+                                    mt="4"
+                                    ml={"-5"}
+                                    w="10"
+                                  >
+                                    {sliderValue[i]}
+                                  </SliderMark>
+                                </Slider>
+                              </>
                             )}
                         </VStack>
                       </WrapItem>

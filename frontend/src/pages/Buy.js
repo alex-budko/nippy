@@ -4,6 +4,11 @@ import {
   Center,
   Divider,
   Heading,
+  Slider,
+  SliderFilledTrack,
+  SliderMark,
+  SliderThumb,
+  SliderTrack,
   Text,
   useColorModeValue,
   VStack,
@@ -16,16 +21,26 @@ import NotAuthenticated from "../auth_pages/NotAuthenticated";
 import { UserContext } from "../user-context/UserContext";
 import { moneyConvert } from "../utils/moneyConvert";
 
-
+import { AiOutlineDollarCircle } from "react-icons/ai";
 
 function Buy() {
   const [_stocks, setStocks] = useState([]);
 
+  const [sliderValue, setSliderValue] = useState([]);
+
   const { user, setUser } = useContext(UserContext);
   const { username, money } = user;
 
-  const buyStock = (e) => {
-    let quantity = 1;
+  const buyStock = (e, quantity) => {
+    setSliderValue(
+      Array.from(
+        {
+          length: _stocks.length,
+        },
+        () => 1
+      )
+    );
+
     //username, stock_name, stock_price
     buy_stock(username, e.target.name, e.target.id, quantity, setUser).then(
       (res) => {
@@ -48,6 +63,16 @@ function Buy() {
             { name: stock.name, price: stock.price },
           ]);
         }
+      })
+      .then(() => {
+        setSliderValue(
+          Array.from(
+            {
+              length: _stocks.length,
+            },
+            () => 1
+          )
+        );
       })
       .catch((err) => {
         console.log(err);
@@ -73,7 +98,7 @@ function Buy() {
           <Heading>Available Money:</Heading>
           <Divider />
           <Center>
-            <Heading>${moneyConvert(money)}</Heading>
+            <Heading>${moneyConvert(money.toFixed(2))}</Heading>
           </Center>
         </VStack>
       </Center>
@@ -97,18 +122,55 @@ function Buy() {
                     <Center>
                       <Text color={colorMode}>${stock.price}</Text>
                     </Center>
-                    <Center>
+                    <VStack>
                       <Button
                         name={stock.name}
                         id={stock.price}
-                        onClick={(e) => buyStock(e)}
+                        onClick={(e) => buyStock(e, sliderValue[i], i)}
                         bgColor="blue.300"
                         mt="2"
                         width={"80%"}
                       >
                         Buy
                       </Button>
-                    </Center>
+                      <Slider
+                        value={sliderValue[i]}
+                        aria-label="slider-ex-4"
+                        min={1}
+                        max={
+                          Math.floor(money / stock.price) > 0
+                            ? Math.floor(money / stock.price)
+                            : 1
+                        }
+                        defaultValue={1}
+                        onChange={(num) => {
+                          let newSlider = [...sliderValue];
+                          newSlider[i] = num;
+                          setSliderValue(newSlider);
+                        }}
+                      >
+                        <SliderTrack bg="red.100">
+                          <SliderFilledTrack bg="tomato" />
+                        </SliderTrack>
+
+                        <SliderThumb boxSize={6}>
+                          <Box color="tomato" as={AiOutlineDollarCircle} />
+                        </SliderThumb>
+                        <SliderMark
+                          value={sliderValue[i]}
+                          textAlign="center"
+                          placement="bottom"
+                          bg="red.300"
+                          color="white"
+                          rounded={"3xl"}
+                          mt="5"
+                          ml={"-3"}
+                          w="10"
+                        >
+                          {sliderValue[i]}
+                        </SliderMark>
+                      </Slider>
+                    </VStack>
                   </Box>
                 </WrapItem>
               </form>

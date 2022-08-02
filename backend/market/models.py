@@ -11,7 +11,7 @@ class UserAccountManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email),
             username=username,
-            money=money
+            money=float(money)
         )
 
         user.set_password(password)
@@ -26,7 +26,7 @@ class UserAccountManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email),
             username=username,
-            money=money
+            money=float(money)
         )
 
         user.set_password(password)
@@ -39,7 +39,7 @@ class UserAccountManager(BaseUserManager):
             email,
             password=password,
             username=username,
-            money=money,
+            money=float(money),
         )
 
         user.is_admin = True

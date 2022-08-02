@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import StockCreate, StockRetrieveUpdateDestroy, UserListCreate, UserRetrieveUpdateDestroy, StockList
+from .views import StockCreate, StockRetrieveUpdateDestroy, UserListCreate, UserRetrieveUpdateDestroy, StockList, update_stock_data
 
 urlpatterns = [
     path('users/', UserListCreate.as_view(), name='user-list-create'),
