@@ -73,7 +73,7 @@ class UserRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     lookup_field='username'
 
 class UserListCreate(generics.ListCreateAPIView):
-    queryset = UserAccount.objects.all()
+    queryset = UserAccount.objects.all().order_by('-money')
     serializer_class = UserAccountSerializer
 
 class StockList(generics.ListAPIView):

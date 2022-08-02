@@ -70,14 +70,14 @@ export default function Settings() {
             navigate('/')
             logout(setUser)
           }}
-            width={"80%"}
+            width={"60%"}
             position="absolute"
             bottom={"5"}
             size="lg"
             _hover={{ bgColor: "red.800" }}
             bgColor="red.600"
           >
-            LOGOUT
+            Logout
           </Button>
         </VStack>
       </Box>

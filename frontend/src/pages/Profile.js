@@ -66,13 +66,13 @@ function Profile() {
               />
             </Center>
             <HStack>
-              <Heading color={"blue.600"}>Net Worth:</Heading>
+              <Heading color={"blue.600"}>Worth:</Heading>
               <Heading color={"gray.50"}>${moneyConvert(profileUser.money)}</Heading>
             </HStack>
 
             <HStack>
               <Heading color={"blue.600"}>Rank:</Heading>
-              <Heading color={"gray.50"}>34/548</Heading>
+              <Heading color={"gray.50"}>23/4324</Heading>
             </HStack>
 
             <Wrap justify={"center"} spacing={5}>

@@ -4,7 +4,6 @@ import {
   Center,
   Divider,
   Heading,
-  Tag,
   Text,
   useColorModeValue,
   VStack,
@@ -16,6 +15,8 @@ import { buy_stock } from "../action_functions/buy_stock";
 import NotAuthenticated from "../auth_pages/NotAuthenticated";
 import { UserContext } from "../user-context/UserContext";
 import { moneyConvert } from "../utils/moneyConvert";
+
+
 
 function Buy() {
   const [_stocks, setStocks] = useState([]);

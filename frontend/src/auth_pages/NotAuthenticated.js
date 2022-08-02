@@ -9,7 +9,7 @@ import {
     Button,
     HStack,
   } from "@chakra-ui/react";
-  import { BiSad } from "react-icons/bi";
+  import { FaRegSadCry } from "react-icons/fa";
   import { Link } from "react-router-dom";
   
   export default function NotAuthenticated() {
@@ -24,13 +24,13 @@ import {
       >
         <Stack
           boxShadow={"2xl"}
-          bg="gray.900"
+          bg="blue.800"
           rounded={"xl"}
           p={10}
           spacing={8}
           align={"center"}
         >
-          <Icon color="yellow.300" as={BiSad} w={24} h={24} />
+          <Icon as={FaRegSadCry} w={24} h={24} />
           <Stack align={"center"} spacing={2}>
             <Heading
               textTransform={"uppercase"}

@@ -11,6 +11,8 @@ import {
   import { BsPerson } from 'react-icons/bs';
   import { AiOutlineStock } from 'react-icons/ai';
   import { HiOutlineDesktopComputer } from 'react-icons/hi';
+import { useEffect, useState } from 'react';
+import { get_users } from '../action_functions/get_users';
   
   
   function StatsCard(props) {
@@ -44,6 +46,12 @@ import {
   }
   
   export default function Home() {
+    const [userCount, setUserCount] = useState(0)
+    useEffect(()=> {
+      get_users().then((users)=>{
+        setUserCount(users.length)
+      })  
+    }, [])
     return (
       <Box maxW="7xl" mx={'auto'} pt={5} px={{ base: 2, sm: 12, md: 17 }}>
         <chakra.h1
@@ -56,7 +64,7 @@ import {
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>
           <StatsCard
             title={'Users'}
-            stat={'5,543'}
+            stat={userCount}
             icon={<BsPerson size={'3em'} />}
           />
           <StatsCard
