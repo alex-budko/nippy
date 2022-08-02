@@ -17,6 +17,7 @@ import {
 import { useParams } from "react-router";
 import { get_profile } from "../action_functions/get_profile";
 import { sell_stock } from "../action_functions/sell_stock";
+import { moneyConvert } from "../utils/moneyConvert";
 
 function Profile() {
   const { user, setUser } = useContext(UserContext);
@@ -66,7 +67,7 @@ function Profile() {
             </Center>
             <HStack>
               <Heading color={"blue.600"}>Net Worth:</Heading>
-              <Heading color={"gray.50"}>${profileUser.money}</Heading>
+              <Heading color={"gray.50"}>${moneyConvert(profileUser.money)}</Heading>
             </HStack>
 
             <HStack>

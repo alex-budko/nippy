@@ -2,9 +2,12 @@ import {
   Box,
   Button,
   Center,
+  Divider,
   Heading,
+  Tag,
   Text,
   useColorModeValue,
+  VStack,
   Wrap,
   WrapItem,
 } from "@chakra-ui/react";
@@ -12,6 +15,7 @@ import React, { Fragment, useContext, useEffect, useState } from "react";
 import { buy_stock } from "../action_functions/buy_stock";
 import NotAuthenticated from "../auth_pages/NotAuthenticated";
 import { UserContext } from "../user-context/UserContext";
+import { moneyConvert } from "../utils/moneyConvert";
 
 function Buy() {
   const [_stocks, setStocks] = useState([]);
@@ -20,13 +24,15 @@ function Buy() {
   const { username, money } = user;
 
   const buyStock = (e) => {
-    let quantity = 1
+    let quantity = 1;
     //username, stock_name, stock_price
-    buy_stock(username, e.target.name, e.target.id, quantity, setUser).then((res)=> {
-      if (res === 'not_enough_money') {
-        console.log("Not Enough Money")
+    buy_stock(username, e.target.name, e.target.id, quantity, setUser).then(
+      (res) => {
+        if (res === "not_enough_money") {
+          console.log("Not Enough Money");
+        }
       }
-    })
+    );
   };
 
   const getStocks = async () => {
@@ -53,10 +59,22 @@ function Buy() {
 
   const colorMode = useColorModeValue("gray.50", "gray.200");
 
-  return username !== '' ? (
+  return username !== "" ? (
     <Fragment>
       <Center>
-        <Heading>Available Money: ${money}</Heading>
+        <VStack
+          p="5"
+          spacing={"3"}
+          bgColor={"gray.900"}
+          shadow="dark-lg"
+          rounded={"2xl"}
+        >
+          <Heading>Available Money:</Heading>
+          <Divider />
+          <Center>
+            <Heading>${moneyConvert(money)}</Heading>
+          </Center>
+        </VStack>
       </Center>
       <Wrap spacing="10" p="10" align="center" justify={"center"}>
         {_stocks !== [] &&
@@ -68,10 +86,13 @@ function Buy() {
                     bgColor={"gray.900"}
                     shadow="dark-lg"
                     rounded={"2xl"}
-                    p="5"
+                    minW="200px"
+                    p="7"
                     _hover={{ cursor: "pointer" }}
                   >
-                    <Heading color={colorMode}>{stock.name}</Heading>
+                    <Center>
+                      <Heading color={colorMode}>{stock.name}</Heading>
+                    </Center>
                     <Center>
                       <Text color={colorMode}>${stock.price}</Text>
                     </Center>
@@ -80,6 +101,9 @@ function Buy() {
                         name={stock.name}
                         id={stock.price}
                         onClick={(e) => buyStock(e)}
+                        bgColor="blue.300"
+                        mt="2"
+                        width={"80%"}
                       >
                         Buy
                       </Button>

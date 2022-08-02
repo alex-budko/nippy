@@ -7,10 +7,17 @@ import {
   VStack,
   Text,
 } from "@chakra-ui/react";
+import { useContext } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { logout } from "../auth_functions/logout";
+import { UserContext } from "../user-context/UserContext";
 
 export default function Settings() {
+
+  const navigate = useNavigate()
+  const { setUser } = useContext(UserContext);
+
   const SETTING_OPTIONS = [
     {
       name: "Terms of Service",
@@ -59,6 +66,10 @@ export default function Settings() {
             );
           })}
           <Button
+          onClick={()=> {
+            navigate('/')
+            logout(setUser)
+          }}
             width={"80%"}
             position="absolute"
             bottom={"5"}

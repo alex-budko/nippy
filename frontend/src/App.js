@@ -40,6 +40,7 @@ function App() {
             {user.username !== "" ? (
               <WrapItem _hover={{ cursor: "pointer" }}>
                 <Avatar
+                mb={'2'}
                   as={Link}
                   to={`/profile/${user.username}`}
                   name={`${user.username}`}
