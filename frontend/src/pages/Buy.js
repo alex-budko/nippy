@@ -23,6 +23,9 @@ import { moneyConvert } from "../utils/moneyConvert";
 
 import { AiOutlineDollarCircle } from "react-icons/ai";
 
+import { Link } from "react-router-dom";
+import { SingleTicker } from "react-tradingview-embed";
+
 function Buy() {
   const [_stocks, setStocks] = useState([]);
 
@@ -112,16 +115,22 @@ function Buy() {
                     bgColor={"gray.900"}
                     shadow="dark-lg"
                     rounded={"2xl"}
-                    minW="200px"
                     p="7"
                     _hover={{ cursor: "pointer" }}
                   >
-                    <Center>
-                      <Heading color={colorMode}>{stock.name}</Heading>
-                    </Center>
-                    <Center>
-                      <Text color={colorMode}>${stock.price}</Text>
-                    </Center>
+                    <Box minW={'250'} minH='150'>
+                      <SingleTicker
+                        widgetProps={{
+                          theme: "dark",
+                          width: 250,
+                          autosize: false,
+                          symbol: stock.name,
+                          locale: "en",
+                          colorTheme: "dark",
+                        }}
+                      />
+                    </Box>
+
                     <VStack>
                       <Button
                         name={stock.name}
@@ -165,7 +174,7 @@ function Buy() {
                           rounded={"3xl"}
                           mt="5"
                           ml={"-3"}
-                          w="10"
+                          w="15"
                         >
                           {sliderValue[i]}
                         </SliderMark>

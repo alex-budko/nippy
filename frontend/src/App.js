@@ -1,4 +1,11 @@
-import { Avatar, Button, useColorMode, Wrap, WrapItem } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  Button,
+  useColorMode,
+  Wrap,
+  WrapItem,
+} from "@chakra-ui/react";
 import { useEffect, useMemo, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import LogIn from "./auth_pages/LogIn";
@@ -14,6 +21,8 @@ import { UserContext } from "./user-context/UserContext";
 
 import Profile from "./pages/Profile";
 import Leaderboard from "./pages/Leaderboard";
+import Stock from "./pages/Stock";
+import { TickerTape } from "react-tradingview-embed";
 
 function App() {
   const [user, setUser] = useState(
@@ -37,10 +46,22 @@ function App() {
       <UserContext.Provider value={_user}>
         <Sidebar>
           <Wrap justify={"right"}>
+            <Box minW={'92%'} zIndex='2'>
+              <TickerTape
+                widgetProps={{
+                  showSymbolLogo: true,
+                  colorTheme: "dark",
+                  isTransparent: false,
+                  displayMode: "regular",
+                  locale: "en",
+                }}
+              />
+            </Box>
+
             {user.username !== "" ? (
               <WrapItem _hover={{ cursor: "pointer" }}>
                 <Avatar
-                mb={'2'}
+                  mb={"2"}
                   as={Link}
                   to={`/profile/${user.username}`}
                   name={`${user.username}`}
@@ -70,7 +91,7 @@ function App() {
             <Route path="leaderboard" element={<Leaderboard />} />
             <Route path="signup" element={<SignUp />} />
             <Route path="login" element={<LogIn />} />
-
+            <Route path="stock/:stock" element={<Stock />} />
             <Route path="profile/:username" element={<Profile />} />
           </Routes>
         </Sidebar>

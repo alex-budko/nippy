@@ -52,8 +52,6 @@ function Profile() {
     );
   };
 
-  
-
   const { username } = useParams();
 
   useEffect(() => {
@@ -98,7 +96,9 @@ function Profile() {
             <HStack>
               <Heading color={"blue.600"}>Worth:</Heading>
               <Heading color={"gray.50"}>
-                ${moneyConvert(profileUser.money.toFixed(2))}
+                {profileUser.money && (
+                  <>${moneyConvert(profileUser.money.toFixed(2))} </>
+                )}
               </Heading>
             </HStack>
 
