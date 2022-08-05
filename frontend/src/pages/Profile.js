@@ -78,7 +78,7 @@ function Profile() {
         minH={"600px"}
         w={"full"}
         bg={useColorModeValue("white", "gray.800")}
-        boxShadow={"2xl"}
+        shadow={"2xl"}
         rounded={"20%"}
         pos={"relative"}
         zIndex={1}
@@ -114,11 +114,11 @@ function Profile() {
                     return (
                       <WrapItem
                         key={i}
-                        bgColor={"red.300"}
+                        bgColor={"gray.900"}
                         px="5"
                         py={"8"}
-                        rounded={"2xl"}
-                        shadow="dark-lg"
+                        rounded={"25%"}
+                        shadow="2xl"
                       >
                         <VStack>
                           <Heading size={"md"}>{stock_name}</Heading>
@@ -150,7 +150,7 @@ function Profile() {
                                     setSliderValue(newSlider);
                                   }}
                                 >
-                                  <SliderTrack bg="red.100">
+                                  <SliderTrack bg="gray.700">
                                     <SliderFilledTrack bg="tomato" />
                                   </SliderTrack>
 
@@ -169,7 +169,7 @@ function Profile() {
                                     rounded={"3xl"}
                                     mt="4"
                                     ml={"-5"}
-                                    w="10"
+                                    w="15"
                                   >
                                     {sliderValue[i]}
                                   </SliderMark>
@@ -177,6 +177,7 @@ function Profile() {
                               </>
                             )}
                         </VStack>
+
                       </WrapItem>
                     );
                   }

@@ -6,7 +6,7 @@ import {
   Wrap,
   WrapItem,
 } from "@chakra-ui/react";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import LogIn from "./auth_pages/LogIn";
 import SignUp from "./auth_pages/SignUp";
@@ -25,6 +25,20 @@ import Stock from "./pages/Stock";
 import { TickerTape } from "react-tradingview-embed";
 
 function App() {
+
+  const [T, setT] = useState(<TickerTape
+    widgetProps={{
+      showSymbolLogo: true,
+      colorTheme: "dark",
+      isTransparent: false,
+      displayMode: "regular",
+      locale: "en",
+    }}
+  />)
+
+  const T_ = useCallback(()=>{
+    return T
+  }, [T, setT])
   const [user, setUser] = useState(
     localStorage.getItem("user")
       ? JSON.parse(localStorage.getItem("user"))
@@ -47,15 +61,7 @@ function App() {
         <Sidebar>
           <Wrap justify={"right"}>
             <Box minW={'92%'} zIndex='2'>
-              <TickerTape
-                widgetProps={{
-                  showSymbolLogo: true,
-                  colorTheme: "dark",
-                  isTransparent: false,
-                  displayMode: "regular",
-                  locale: "en",
-                }}
-              />
+              <T_ />
             </Box>
 
             {user.username !== "" ? (

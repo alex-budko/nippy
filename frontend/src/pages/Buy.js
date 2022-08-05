@@ -4,30 +4,43 @@ import {
   Center,
   Divider,
   Heading,
-  Slider,
-  SliderFilledTrack,
-  SliderMark,
-  SliderThumb,
-  SliderTrack,
-  Text,
-  useColorModeValue,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
   VStack,
   Wrap,
   WrapItem,
 } from "@chakra-ui/react";
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, {
+  Fragment,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { buy_stock } from "../action_functions/buy_stock";
 import NotAuthenticated from "../auth_pages/NotAuthenticated";
 import { UserContext } from "../user-context/UserContext";
 import { moneyConvert } from "../utils/moneyConvert";
-
-import { AiOutlineDollarCircle } from "react-icons/ai";
-
-import { Link } from "react-router-dom";
 import { SingleTicker } from "react-tradingview-embed";
 
 function Buy() {
   const [_stocks, setStocks] = useState([]);
+
+  const [Ticker, setTicker] = useState([]);
+
+  const Ticker_ = useCallback(
+    ({symbol, index=0}) => {
+      if (Ticker[index].props) {
+        Ticker[index].props.widgetProps.symbol = symbol
+        return Ticker[index];
+      }
+    },
+    [Ticker, setTicker]
+  );
 
   const [sliderValue, setSliderValue] = useState([]);
 
@@ -76,6 +89,25 @@ function Buy() {
             () => 1
           )
         );
+        setTicker(
+          Array.from(
+            {
+              length: _stocks.length,
+            },
+            () => (
+              <SingleTicker
+                widgetProps={{
+                  theme: "light",
+                  width: 250,
+                  autosize: false,
+                  symbol: "BTC",
+                  locale: "en",
+                  colorTheme: "dark",
+                }}
+              />
+            )
+          )
+        );
       })
       .catch((err) => {
         console.log(err);
@@ -85,8 +117,6 @@ function Buy() {
   useEffect(() => {
     getStocks();
   }, []);
-
-  const colorMode = useColorModeValue("gray.50", "gray.200");
 
   return username !== "" ? (
     <Fragment>
@@ -118,16 +148,10 @@ function Buy() {
                     p="7"
                     _hover={{ cursor: "pointer" }}
                   >
-                    <Box minW={'250'} minH='150'>
-                      <SingleTicker
-                        widgetProps={{
-                          theme: "dark",
-                          width: 250,
-                          autosize: false,
-                          symbol: stock.name,
-                          locale: "en",
-                          colorTheme: "dark",
-                        }}
+                    <Box minW={"250"} minH="150">
+                      <Ticker_
+                        symbol={stock.name}
+                        index={i}
                       />
                     </Box>
 
@@ -135,50 +159,34 @@ function Buy() {
                       <Button
                         name={stock.name}
                         id={stock.price}
-                        onClick={(e) => buyStock(e, sliderValue[i], i)}
+                        onClick={(e) => buyStock(e, sliderValue[i])}
                         bgColor="blue.300"
                         mt="2"
                         width={"80%"}
                       >
                         Buy
                       </Button>
-                      <Slider
+                      <NumberInput
                         value={sliderValue[i]}
-                        aria-label="slider-ex-4"
+                        onChange={(num) => {
+                          let newSlider = [...sliderValue];
+                          newSlider[i] = num.valueOf();
+                          setSliderValue(newSlider);
+                        }}
+                        defaultValue={1}
                         min={1}
                         max={
                           Math.floor(money / stock.price) > 0
                             ? Math.floor(money / stock.price)
                             : 1
                         }
-                        defaultValue={1}
-                        onChange={(num) => {
-                          let newSlider = [...sliderValue];
-                          newSlider[i] = num;
-                          setSliderValue(newSlider);
-                        }}
                       >
-                        <SliderTrack bg="red.100">
-                          <SliderFilledTrack bg="tomato" />
-                        </SliderTrack>
-
-                        <SliderThumb boxSize={6}>
-                          <Box color="tomato" as={AiOutlineDollarCircle} />
-                        </SliderThumb>
-                        <SliderMark
-                          value={sliderValue[i]}
-                          textAlign="center"
-                          placement="bottom"
-                          bg="red.300"
-                          color="white"
-                          rounded={"3xl"}
-                          mt="5"
-                          ml={"-3"}
-                          w="15"
-                        >
-                          {sliderValue[i]}
-                        </SliderMark>
-                      </Slider>
+                        <NumberInputField />
+                        <NumberInputStepper>
+                          <NumberIncrementStepper />
+                          <NumberDecrementStepper />
+                        </NumberInputStepper>
+                      </NumberInput>
                     </VStack>
                   </Box>
                 </WrapItem>

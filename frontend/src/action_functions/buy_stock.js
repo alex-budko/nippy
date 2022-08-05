@@ -14,16 +14,16 @@ export const buy_stock = async (
       .then((res) => {
         user = res.data;
       });
-    if (user.money - stock_price * quantity < 0) {
+    if (user.money - stock_price * quantity.valueOf() < 0) {
       throw "not_enough_money"
     }
-    if (stock_name in user.stocks) {
-      user.stocks[stock_name] += quantity;
-    } else {
-      user.stocks[stock_name] = quantity;
-    }
-    user.money -= stock_price * quantity;
 
+    if (stock_name in user.stocks) {
+      user.stocks[stock_name] = +user.stocks[stock_name] + +quantity;
+    } else {
+      user.stocks[stock_name] = +quantity;
+    }
+    user.money -= stock_price * +quantity;
     localStorage.setItem("user", JSON.stringify(user));
     setUser(user);
 

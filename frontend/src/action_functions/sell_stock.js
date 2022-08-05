@@ -17,6 +17,7 @@ export const sell_stock = async (username, stock_name, quantity, setUser) => {
         stock_price = res.data.price;
       });
 
+      console.log(quantity)
     user.money += stock_price * quantity
 
     localStorage.setItem("user", JSON.stringify(user));
