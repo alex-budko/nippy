@@ -10,7 +10,7 @@ export const sell_stock = async (username, stock_name, quantity, setUser) => {
       .then((res) => {
         user = res.data;
       });
-    user.stocks[stock_name] -= quantity;
+    user.stocks[stock_name] -= +quantity;
     await axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/market/stock/${stock_name}/`)
       .then((res) => {
@@ -18,7 +18,7 @@ export const sell_stock = async (username, stock_name, quantity, setUser) => {
       });
 
       console.log(quantity)
-    user.money += stock_price * quantity
+    user.money += stock_price * +quantity
 
     localStorage.setItem("user", JSON.stringify(user));
     setUser(user);

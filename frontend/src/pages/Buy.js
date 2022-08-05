@@ -13,14 +13,7 @@ import {
   Wrap,
   WrapItem,
 } from "@chakra-ui/react";
-import React, {
-  Fragment,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import { buy_stock } from "../action_functions/buy_stock";
 import NotAuthenticated from "../auth_pages/NotAuthenticated";
 import { UserContext } from "../user-context/UserContext";
@@ -28,30 +21,23 @@ import { moneyConvert } from "../utils/moneyConvert";
 import { SingleTicker } from "react-tradingview-embed";
 
 function Buy() {
+  let STOCK_DATA = [];
+
   const [_stocks, setStocks] = useState([]);
 
   const [Ticker, setTicker] = useState([]);
 
-  const Ticker_ = useCallback(
-    ({symbol, index=0}) => {
-      if (Ticker[index].props) {
-        Ticker[index].props.widgetProps.symbol = symbol
-        return Ticker[index];
-      }
-    },
-    [Ticker, setTicker]
-  );
-
   const [sliderValue, setSliderValue] = useState([]);
 
   const { user, setUser } = useContext(UserContext);
+
   const { username, money } = user;
 
   const buyStock = (e, quantity) => {
     setSliderValue(
       Array.from(
         {
-          length: _stocks.length,
+          length: STOCK_DATA.length,
         },
         () => 1
       )
@@ -69,49 +55,48 @@ function Buy() {
 
   const getStocks = async () => {
     setStocks([]);
-    await fetch(`${process.env.REACT_APP_BACKEND_URL}/market/stocks/`)
-      .then((res) => res.json())
-      .then((data) => {
-        for (let item = 0; item < data.length; item++) {
-          let stock = data[item];
-          setStocks((stocks) => [
-            ...stocks,
-            { name: stock.name, price: stock.price },
-          ]);
-        }
-      })
-      .then(() => {
-        setSliderValue(
-          Array.from(
-            {
-              length: _stocks.length,
-            },
-            () => 1
-          )
-        );
-        setTicker(
-          Array.from(
-            {
-              length: _stocks.length,
-            },
-            () => (
+    try {
+      await fetch(`${process.env.REACT_APP_BACKEND_URL}/market/stocks/`)
+        .then((res) => res.json())
+        .then((data) => {
+          STOCK_DATA = data;
+          for (let item = 0; item < data.length; item++) {
+            let stock = data[item];
+            setStocks((stocks) => [
+              ...stocks,
+              { name: stock.name, price: stock.price },
+            ]);
+          }
+        })
+        .then(() => {
+          setSliderValue(
+            Array.from(
+              {
+                length: STOCK_DATA.length,
+              },
+              () => 1
+            )
+          );
+          let tickers = [];
+          for (let i = 0; i < STOCK_DATA.length; i++) {
+            tickers.push(
               <SingleTicker
                 widgetProps={{
                   theme: "light",
+                  symbol: STOCK_DATA[i].name,
                   width: 250,
                   autosize: false,
-                  symbol: "BTC",
                   locale: "en",
                   colorTheme: "dark",
                 }}
               />
-            )
-          )
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+            );
+          }
+          setTicker(tickers);
+        });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -149,10 +134,7 @@ function Buy() {
                     _hover={{ cursor: "pointer" }}
                   >
                     <Box minW={"250"} minH="150">
-                      <Ticker_
-                        symbol={stock.name}
-                        index={i}
-                      />
+                      {Ticker[i]}
                     </Box>
 
                     <VStack>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { UserContext } from "../user-context/UserContext";
 
 import {
@@ -13,27 +13,31 @@ import {
   WrapItem,
   Text,
   Button,
-  Slider,
-  SliderTrack,
-  SliderFilledTrack,
-  SliderThumb,
-  SliderMark,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from "@chakra-ui/react";
 import { useParams } from "react-router";
 import { get_profile } from "../action_functions/get_profile";
 import { sell_stock } from "../action_functions/sell_stock";
 import { moneyConvert } from "../utils/moneyConvert";
-import { AiOutlineDollarCircle } from "react-icons/ai";
+import { SingleTicker } from "react-tradingview-embed";
 
 function Profile() {
+  let PROFILE_STOCKS = [];
   const { user, setUser } = useContext(UserContext);
   const [sliderValue, setSliderValue] = useState([]);
+
   const [profileUser, setProfileUser] = useState({
     username: "",
     email: "",
     money: 0,
     stocks: {},
   });
+
+  const [Ticker, setTicker] = useState([]);
 
   const sellStock = (stock_name, quantity) => {
     setSliderValue(
@@ -56,16 +60,37 @@ function Profile() {
 
   useEffect(() => {
     get_profile(username)
-      .then((res) => setProfileUser(res.data))
+      .then((res) => {
+        setProfileUser(res.data);
+        PROFILE_STOCKS = res.data.stocks;
+        console.log(PROFILE_STOCKS);
+      })
       .then(() => {
         setSliderValue(
           Array.from(
             {
-              length: Object.keys(profileUser.stocks).length,
+              length: Object.keys(PROFILE_STOCKS).length,
             },
             () => 1
           )
         );
+
+        let tickers = [];
+        for (let i = 0; i < Object.keys(PROFILE_STOCKS).length; i++) {
+          tickers.push(
+            <SingleTicker
+              widgetProps={{
+                theme: "light",
+                symbol: Object.keys(PROFILE_STOCKS)[i],
+                width: 250,
+                autosize: false,
+                locale: "en",
+                colorTheme: "dark",
+              }}
+            />
+          );
+        }
+        setTicker(tickers);
       });
   }, []);
 
@@ -121,7 +146,7 @@ function Profile() {
                         shadow="2xl"
                       >
                         <VStack>
-                          <Heading size={"md"}>{stock_name}</Heading>
+                          {Ticker[i]}
                           <Text>
                             Quantity: {profileUser.stocks[stock_name]}{" "}
                           </Text>
@@ -138,46 +163,27 @@ function Profile() {
                                 >
                                   Sell
                                 </Button>
-                                <Slider
-                                  aria-label="slider-ex-4"
+
+                                <NumberInput
                                   value={sliderValue[i]}
-                                  min={1}
-                                  max={profileUser.stocks[stock_name]}
-                                  defaultValue={1}
                                   onChange={(num) => {
                                     let newSlider = [...sliderValue];
                                     newSlider[i] = num;
                                     setSliderValue(newSlider);
                                   }}
+                                  defaultValue={1}
+                                  min={1}
+                                  max={profileUser.stocks[stock_name]}
                                 >
-                                  <SliderTrack bg="gray.700">
-                                    <SliderFilledTrack bg="tomato" />
-                                  </SliderTrack>
-
-                                  <SliderThumb boxSize={6}>
-                                    <Box
-                                      color="tomato"
-                                      as={AiOutlineDollarCircle}
-                                    />
-                                  </SliderThumb>
-                                  <SliderMark
-                                    value={sliderValue[i]}
-                                    textAlign="center"
-                                    placement="bottom"
-                                    bg="blue.300"
-                                    color="white"
-                                    rounded={"3xl"}
-                                    mt="4"
-                                    ml={"-5"}
-                                    w="15"
-                                  >
-                                    {sliderValue[i]}
-                                  </SliderMark>
-                                </Slider>
+                                  <NumberInputField />
+                                  <NumberInputStepper>
+                                    <NumberIncrementStepper />
+                                    <NumberDecrementStepper />
+                                  </NumberInputStepper>
+                                </NumberInput>
                               </>
                             )}
                         </VStack>
-
                       </WrapItem>
                     );
                   }
