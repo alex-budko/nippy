@@ -1,6 +1,8 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { UserContext } from "../user-context/UserContext";
 
+import * as d3 from "https://cdn.skypack.dev/d3@7";
+
 import {
   Box,
   Center,
@@ -26,6 +28,10 @@ import { moneyConvert } from "../utils/moneyConvert";
 import { SingleTicker } from "react-tradingview-embed";
 
 function Profile() {
+  useEffect(() => {
+    d3.selectAll(".label-dkyS18j2.snap-dkyS18j2.end-dkyS18j2").remove();
+  });
+
   let PROFILE_STOCKS = [];
   const { user, setUser } = useContext(UserContext);
   const [sliderValue, setSliderValue] = useState([]);
@@ -63,7 +69,6 @@ function Profile() {
       .then((res) => {
         setProfileUser(res.data);
         PROFILE_STOCKS = res.data.stocks;
-        console.log(PROFILE_STOCKS);
       })
       .then(() => {
         setSliderValue(
@@ -80,12 +85,11 @@ function Profile() {
           tickers.push(
             <SingleTicker
               widgetProps={{
-                theme: "light",
                 symbol: Object.keys(PROFILE_STOCKS)[i],
                 width: 250,
                 autosize: false,
                 locale: "en",
-                colorTheme: "dark",
+                colorTheme: "light",
               }}
             />
           );
@@ -104,7 +108,7 @@ function Profile() {
         w={"full"}
         bg={useColorModeValue("white", "gray.800")}
         shadow={"2xl"}
-        rounded={"20%"}
+        rounded={"2xl"}
         pos={"relative"}
         zIndex={1}
       >
@@ -135,58 +139,55 @@ function Profile() {
             <Wrap justify={"center"} spacing={5}>
               {profileUser.stocks !== {} &&
                 Object.keys(profileUser.stocks).map((stock_name, i) => {
-                  if (profileUser.stocks[stock_name] > 0) {
-                    return (
-                      <WrapItem
-                        key={i}
-                        bgColor={"gray.900"}
-                        px="5"
-                        py={"8"}
-                        rounded={"25%"}
-                        shadow="2xl"
-                      >
-                        <VStack>
-                          {Ticker[i]}
-                          <Text>
-                            Quantity: {profileUser.stocks[stock_name]}{" "}
-                          </Text>
-                          {user.username !== "" &&
-                            user.username === profileUser.username && (
-                              <>
-                                <Button
-                                  bgColor="blue.300"
-                                  mt="2"
-                                  width={"80%"}
-                                  onClick={() =>
-                                    sellStock(stock_name, sliderValue[i])
-                                  }
-                                >
-                                  Sell
-                                </Button>
+                  if (profileUser.stocks[stock_name] <= 0) return <></>;
+                  return (
+                    <WrapItem
+                      key={i}
+                      bgColor={"gray.900"}
+                      px="5"
+                      py={"8"}
+                      rounded={"25%"}
+                      shadow="2xl"
+                    >
+                      <VStack>
+                        {Ticker[i]}
+                        <Text>Quantity: {profileUser.stocks[stock_name]} </Text>
+                        {user.username !== "" &&
+                          user.username === profileUser.username && (
+                            <>
+                              <Button
+                                bgColor="blue.300"
+                                mt="2"
+                                width={"80%"}
+                                onClick={() =>
+                                  sellStock(stock_name, sliderValue[i])
+                                }
+                              >
+                                Sell
+                              </Button>
 
-                                <NumberInput
-                                  value={sliderValue[i]}
-                                  onChange={(num) => {
-                                    let newSlider = [...sliderValue];
-                                    newSlider[i] = num;
-                                    setSliderValue(newSlider);
-                                  }}
-                                  defaultValue={1}
-                                  min={1}
-                                  max={profileUser.stocks[stock_name]}
-                                >
-                                  <NumberInputField />
-                                  <NumberInputStepper>
-                                    <NumberIncrementStepper />
-                                    <NumberDecrementStepper />
-                                  </NumberInputStepper>
-                                </NumberInput>
-                              </>
-                            )}
-                        </VStack>
-                      </WrapItem>
-                    );
-                  }
+                              <NumberInput
+                                value={sliderValue[i]}
+                                onChange={(num) => {
+                                  let newSlider = [...sliderValue];
+                                  newSlider[i] = num;
+                                  setSliderValue(newSlider);
+                                }}
+                                defaultValue={1}
+                                min={1}
+                                max={profileUser.stocks[stock_name]}
+                              >
+                                <NumberInputField />
+                                <NumberInputStepper>
+                                  <NumberIncrementStepper />
+                                  <NumberDecrementStepper />
+                                </NumberInputStepper>
+                              </NumberInput>
+                            </>
+                          )}
+                      </VStack>
+                    </WrapItem>
+                  );
                 })}
             </Wrap>
           </VStack>

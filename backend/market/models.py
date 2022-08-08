@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
+from django.contrib.humanize.templatetags import humanize
+
 
 class UserAccountManager(BaseUserManager):
     def create(self, username, email, money=500000, password=None):
@@ -90,15 +92,24 @@ class UserAccount(AbstractBaseUser):
     def __str__(self):
         return self.email
 
+
 class Stock(models.Model):
 
     def default_data():
-        return {"data":"none"}
-        
+        return {"data": "none"}
+
     name = models.CharField(default='NOT_FOUND', max_length=265, unique=True)
     price = models.FloatField(default=0.0)
-    data = models.JSONField(default=dict({"data":"none"}))
+    data = models.JSONField(default=dict({"data": "none"}))
 
     def __str__(self):
         return self.name
 
+
+class Message(models.Model):
+    user = models.OneToOneField(UserAccount, on_delete=models.CASCADE, primary_key=True)
+    created = models.DateTimeField(auto_now_add=True)
+    text = models.CharField(max_length=60)
+
+    def created(self):
+        return humanize.naturaltime(self.created)
