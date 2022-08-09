@@ -1,7 +1,5 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../user-context/UserContext";
-
-import * as d3 from "https://cdn.skypack.dev/d3@7";
 
 import {
   Box,
@@ -28,12 +26,11 @@ import { moneyConvert } from "../utils/moneyConvert";
 import { SingleTicker } from "react-tradingview-embed";
 
 function Profile() {
-  useEffect(() => {
-    d3.selectAll(".label-dkyS18j2.snap-dkyS18j2.end-dkyS18j2").remove();
-  });
+
 
   let PROFILE_STOCKS = [];
   const { user, setUser } = useContext(UserContext);
+
   const [sliderValue, setSliderValue] = useState([]);
 
   const [profileUser, setProfileUser] = useState({
@@ -130,12 +127,6 @@ function Profile() {
                 )}
               </Heading>
             </HStack>
-
-            <HStack>
-              <Heading color={"blue.600"}>Rank:</Heading>
-              <Heading color={"gray.50"}>34/548</Heading>
-            </HStack>
-
             <Wrap justify={"center"} spacing={5}>
               {profileUser.stocks !== {} &&
                 Object.keys(profileUser.stocks).map((stock_name, i) => {

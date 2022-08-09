@@ -5,6 +5,8 @@ from django.contrib.auth.models import (
 from django.contrib.humanize.templatetags import humanize
 
 
+
+
 class UserAccountManager(BaseUserManager):
     def create(self, username, email, money=500000, password=None):
         if not email:
@@ -107,9 +109,9 @@ class Stock(models.Model):
 
 
 class Message(models.Model):
-    user = models.OneToOneField(UserAccount, on_delete=models.CASCADE, primary_key=True)
-    created = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, auto_created = True, blank=False)
     text = models.CharField(max_length=60)
 
-    def created(self):
+    def created_at(self):
         return humanize.naturaltime(self.created)

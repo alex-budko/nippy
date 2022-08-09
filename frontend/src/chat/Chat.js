@@ -8,46 +8,41 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, {
+  Fragment,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { create_message } from "../action_functions/create_message";
+import { get_messages } from "../action_functions/get_messages.";
 
 import "../styles.css";
+import { UserContext } from "../user-context/UserContext";
 
 function Chat() {
-  const [messages, setMessages] = useState([
-    {
-      user: "Alex",
-      text: "Hey!",
-      created: "25 min ago",
-    },
-    {
-      user: "Misha",
-      text: "Hey!",
-      created: "25 min ago",
-    },
-    {
-      user: "Alex",
-      text: "Hey!",
-      created: "25 min ago",
-    },
-    {
-      user: "Misha",
-      text: "Hey!",
-      created: "25 min ago",
-    },
-    {
-      user: "Alex",
-      text: "Hey!",
-      created: "25 min ago",
-    },
-    {
-      user: "Misha",
-      text: "Hey!",
-      created: "25 min ago",
-    },
-  ]);
+  const [messages, setMessages] = useState([]);
+  const { user } = useContext(UserContext);
+  const { username } = user;
+  const chat = useRef(null);
+  const [sentMessage, setSentMessage] = useState(true);
+
+  useEffect(() => {
+    if (sentMessage) {
+      get_messages().then((messages) => setMessages(messages));
+      setSentMessage(false)
+    }
+    if (chat.current) {
+      chat.current.scrollTop = chat.current.scrollHeight
+    }
+    
+  }, [sentMessage, chat.current]);
+
   return (
     <Center>
       <VStack
+        ref={chat}
         className="chat"
         bgColor="gray.600"
         overflowY={"scroll"}
@@ -69,7 +64,9 @@ function Chat() {
                 w="100%"
                 rounded="2xl"
                 shadow={"dark-lg"}
-                style={{marginBottom: `${i===messages.length - 1 ? 45 : 5}px`}}
+                style={{
+                  marginBottom: `${i === messages.length - 1 ? 45 : 5}px`,
+                }}
               >
                 <VStack>
                   <Text fontFamily={"bold"} fontSize="xl">
@@ -82,9 +79,26 @@ function Chat() {
               </Box>
             );
           })}
-        <HStack position="absolute" bottom={2}>
-          <Input bgColor={'gray.300'} color='gray.800' />
-          <Button bgColor='green.600'>Send</Button>
+        <HStack position="absolute" p="1" bottom={2}>
+          {username !== "" && (
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                setSentMessage(true);
+                create_message(username, e.target[0].value);
+              }}
+            >
+              <Input
+                mr="1"
+                bgColor={"gray.300"}
+                maxW="200px"
+                color="gray.800"
+              />
+              <Button type="submit" bgColor="green.600">
+                Send
+              </Button>
+            </form>
+          )}
         </HStack>
       </VStack>
     </Center>

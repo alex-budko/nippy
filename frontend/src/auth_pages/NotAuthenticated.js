@@ -19,12 +19,11 @@ import {
         align={"center"}
         justify={"center"}
         py={12}
-        rounded={"lg"}
-        shadow="dark-lg"
       >
         <Stack
-          boxShadow={"2xl"}
-          bg="blue.800"
+          boxShadow={"3xl"}
+          shadow='dark-lg'
+          bg="gray.800"
           rounded={"xl"}
           p={10}
           spacing={8}

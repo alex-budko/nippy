@@ -1,8 +1,8 @@
 import time
 
 from platformdirs import user_config_dir
-from .models import Stock, UserAccount
-from .serializers import UserAccountSerializer, StockSerializer
+from .models import Message, Stock, UserAccount
+from .serializers import MessageSerializer, UserAccountSerializer, StockSerializer
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, SAFE_METHODS, BasePermission, IsAdminUser
 
@@ -77,7 +77,6 @@ class UserListCreate(generics.ListCreateAPIView):
     serializer_class = UserAccountSerializer
 
 class StockList(generics.ListAPIView):
-
     queryset = Stock.objects.all().order_by('-price')
     serializer_class = StockSerializer
 
@@ -85,6 +84,14 @@ class StockCreate(generics.CreateAPIView):
     # permission_classes = [IsAdminUser|ReadOnly]
     queryset = Stock.objects.all() 
     serializer_class = StockSerializer
+
+class MessageList(generics.ListAPIView):
+    queryset = Message.objects.all()
+    serializer_class = MessageSerializer
+
+class MessageCreate(generics.CreateAPIView):
+    queryset = Message.objects.all() 
+    serializer_class = MessageSerializer
 
 class StockRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     # permission_classes = [IsAuthenticated|ReadOnly]

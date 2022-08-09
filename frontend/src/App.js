@@ -17,7 +17,7 @@ import Home from "./pages/Home";
 import Buy from "./pages/Buy";
 import Settings from "./pages/Settings";
 
-import { ChatIcon, CloseIcon} from "@chakra-ui/icons";
+import { ChatIcon, CloseIcon } from "@chakra-ui/icons";
 
 import { UserContext } from "./user-context/UserContext";
 
@@ -108,11 +108,16 @@ function App() {
             <Route path="profile/:username" element={<Profile />} />
           </Routes>
         </Sidebar>
+        <Wrap position={"fixed"} bottom="10" right="10" justify={"right"}>
+          <Button
+            w="50px"
+            h="40px"
+            as={!showChat ? ChatIcon : CloseIcon}
+            onClick={() => setShowChat(!showChat)}
+          />
+          {showChat && <Chat />}
+        </Wrap>
       </UserContext.Provider>
-      <Wrap position={'fixed'} bottom='10' right='10' justify={'right'}>
-        <Button w='50px' h='40px' as={!showChat ? ChatIcon : CloseIcon} onClick={() => setShowChat(!showChat)} />
-        {showChat && <Chat />}
-      </Wrap>
     </Router>
   );
 }
