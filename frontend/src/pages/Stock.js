@@ -7,35 +7,31 @@ function Stock() {
   return (
     <VStack spacing={"3"}>
       <Heading>{stock}</Heading>
-      <Divider width={'80%'} />
+      <Divider width={"80%"} />
       <HStack>
-      <FundamentalData
-        widgetProps={{
-          theme: "dark",
-          interval: "1m",
-          width: 425,
-          isTransparent: false,
-          height: 450,
-          symbol: stock,
-          showIntervalTabs: true,
-          locale: "en",
-          colorTheme: "light",
-        }}
-      />      <TechnicalAnalysis
-        widgetProps={{
-          theme: "dark",
-          interval: "1m",
-          width: 425,
-          isTransparent: false,
-          height: 450,
-          symbol: stock,
-          showIntervalTabs: true,
-          locale: "en",
-          colorTheme: "light",
-        }}
-      />
+        <FundamentalData
+          widgetProps={{
+            interval: "1m",
+            width: 425,
+            height: 450,
+            symbol: stock,
+            showIntervalTabs: true,
+            locale: "en",
+            colorTheme: "dark",
+          }}
+        />{" "}
+        <TechnicalAnalysis
+          widgetProps={{
+            interval: "1m",
+            width: 425,
+            height: 450,
+            symbol: stock,
+            showIntervalTabs: true,
+            locale: "en",
+            colorTheme: "dark",
+          }}
+        />
       </HStack>
-      
       ;
     </VStack>
   );

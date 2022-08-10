@@ -32,11 +32,7 @@ function Chat() {
     if (sentMessage) {
       get_messages().then((messages) => setMessages(messages));
       setSentMessage(false)
-    }
-    if (chat.current) {
-      chat.current.scrollTop = chat.current.scrollHeight
-    }
-    
+    }    
   }, [sentMessage, chat.current]);
 
   return (

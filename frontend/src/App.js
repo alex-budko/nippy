@@ -28,6 +28,7 @@ import { TickerTape } from "react-tradingview-embed";
 import Chat from "./chat/Chat";
 
 function App() {
+
   const [T, setT] = useState(
     <TickerTape
       widgetProps={{
@@ -44,6 +45,7 @@ function App() {
   const T_ = useCallback(() => {
     return T;
   }, [T, setT]);
+
   const [user, setUser] = useState(
     localStorage.getItem("user")
       ? JSON.parse(localStorage.getItem("user"))
@@ -108,7 +110,7 @@ function App() {
             <Route path="profile/:username" element={<Profile />} />
           </Routes>
         </Sidebar>
-        <Wrap position={"fixed"} bottom="10" right="10" justify={"right"}>
+        <Wrap style={{zIndex: 5}} position={"fixed"} bottom="10" right="10" justify={"right"}>
           <Button
             w="50px"
             h="40px"

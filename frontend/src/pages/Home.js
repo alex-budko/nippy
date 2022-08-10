@@ -47,6 +47,7 @@ import { get_users } from '../action_functions/get_users';
   
   export default function Home() {
     const [userCount, setUserCount] = useState(0)
+    console.log(userCount)
     useEffect(()=> {
       get_users().then((users)=>{
         setUserCount(users.length)

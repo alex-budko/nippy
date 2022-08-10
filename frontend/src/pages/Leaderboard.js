@@ -13,22 +13,19 @@ import {
   Avatar,
 } from "@chakra-ui/react";
 
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { get_users } from "../action_functions/get_users";
 import { moneyConvert } from "../utils/moneyConvert";
 
 function Leaderboard() {
-  const [users, setUsers] = useState([
-    { username: "Misha", email: "", money: 3543, stocks: {} },
-    { username: "Alex", email: "", money: 432, stocks: {} },
-  ]);
+  const [users, setUsers] = useState([]);
 
-  useEffect(()=> {
-    get_users().then((_users)=> {
-      setUsers(_users)
-    })
-  }, [])
+  useEffect(() => {
+    get_users().then((_users) => {
+      setUsers(_users);
+    });
+  }, []);
 
   return (
     <VStack spacing={"5"}>
@@ -44,7 +41,7 @@ function Leaderboard() {
         bgColor="gray.800"
       >
         <Table>
-          <Thead >
+          <Thead>
             <Tr>
               <Th>Rank</Th>
               <Th>Username</Th>
@@ -58,8 +55,14 @@ function Leaderboard() {
                 <Tr>
                   <Td>{i + 1}</Td>
                   <Td>{user.username}</Td>
-                  <Td>${moneyConvert(user.money)}</Td>
-                  <Td><Avatar as={Link} to={`/profile/${user.username}`} name={user.username} /></Td>
+                  <Td>${moneyConvert(user.money.toFixed(2))}</Td>
+                  <Td>
+                    <Avatar
+                      as={Link}
+                      to={`/profile/${user.username}`}
+                      name={user.username}
+                    />
+                  </Td>
                 </Tr>
               );
             })}

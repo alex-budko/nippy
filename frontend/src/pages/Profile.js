@@ -86,7 +86,7 @@ function Profile() {
                 width: 250,
                 autosize: false,
                 locale: "en",
-                colorTheme: "light",
+                colorTheme: "dark",
               }}
             />
           );

@@ -1,6 +1,5 @@
 import time
 
-from platformdirs import user_config_dir
 from .models import Message, Stock, UserAccount
 from .serializers import MessageSerializer, UserAccountSerializer, StockSerializer
 from rest_framework import generics
@@ -81,24 +80,27 @@ class StockList(generics.ListAPIView):
     serializer_class = StockSerializer
 
 class StockCreate(generics.CreateAPIView):
-    # permission_classes = [IsAdminUser|ReadOnly]
     queryset = Stock.objects.all() 
     serializer_class = StockSerializer
 
 class MessageList(generics.ListAPIView):
-    queryset = Message.objects.all()
+    queryset = Message.objects.all().order_by('-id')
     serializer_class = MessageSerializer
 
 class MessageCreate(generics.CreateAPIView):
     queryset = Message.objects.all() 
     serializer_class = MessageSerializer
 
+class MessageRetrieveDestroy(generics.RetrieveDestroyAPIView):
+    queryset = Message.objects.all() 
+    serializer_class = MessageSerializer
+    lookup_field='id'
+
 class StockRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     # permission_classes = [IsAuthenticated|ReadOnly]
     queryset = Stock.objects.all()
     serializer_class = StockSerializer
     lookup_field='name'
-
 
 class ModdedTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod

@@ -5,14 +5,13 @@ import {
   VStack,
   Wrap,
   useColorModeValue,
-  Button,
   Box,
 } from "@chakra-ui/react";
-import Plot from "react-plotly.js";
 import Loader from "../utils/Loader";
 
 import { Link } from "react-router-dom";
 import { MiniChart } from "react-tradingview-embed";
+
 
 function Explore() {
   const companies = [
@@ -32,6 +31,7 @@ function Explore() {
   const [loadingCharts, setLoadingCharts] = useState(false);
 
   const colorMode = useColorModeValue("gray.50", "gray.200");
+
 
   return (
     <Center>
@@ -62,15 +62,12 @@ function Explore() {
                   <MiniChart
                     widgetProps={{
                       autosize: true,
-                      theme: "dark",
                       interval: "1m",
-                      // width: 425,
                       isTransparent: false,
-                      // height: 250,
                       symbol: company,
                       showIntervalTabs: true,
                       locale: "en",
-                      colorTheme: "light",
+                      colorTheme: "dark",
                     }}
                   />
                 </Box>
