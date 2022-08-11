@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated, SAFE_METHODS, BasePermis
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from .stocks import stocks
 
 import requests
 
@@ -15,11 +16,10 @@ import environ
 env = environ.Env()
 environ.Env.read_env()
 
-# ["IBM", "AMZN", "TSLA", "ABBV", "ABEO", "GOOG", "ADBE", "ATVI", "EBAY", "EA", "INTC"]
-def add_stocks(stock_array):
+def add_stocks():
+    stock_array = stocks[:10]
     for stock in stock_array:
         Stock.objects.create(name=stock)
-
 
 def update_stock_data():
     all_stocks = Stock.objects.all()
@@ -117,3 +117,5 @@ class ModdedTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 class ModdedTokenObtainPairView(TokenObtainPairView):
     serializer_class = ModdedTokenObtainPairSerializer
+
+    

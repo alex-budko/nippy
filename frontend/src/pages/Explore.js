@@ -12,32 +12,42 @@ import Loader from "../utils/Loader";
 import { Link } from "react-router-dom";
 import { MiniChart } from "react-tradingview-embed";
 
-
 function Explore() {
-  const companies = [
-    "IBM",
-    "AMZN",
-    "TSLA",
-    "ABBV",
-    "ABEO",
-    "GOOG",
-    "ADBE",
-    "ATVI",
-    "EBAY",
-    "EA",
-    "INTC",
-  ];
+  const [stocks, setStocks] = useState([]);
 
-  const [loadingCharts, setLoadingCharts] = useState(false);
+  const [loadedStocks, setLoadedStocks] = useState(false);
 
   const colorMode = useColorModeValue("gray.50", "gray.200");
 
+  const getStocks = async () => {
+    setStocks([]);
+    try {
+      await fetch(`${process.env.REACT_APP_BACKEND_URL}/market/stocks/`)
+        .then((res) => res.json())
+        .then((data) => {
+          for (let item = 0; item < data.length; item++) {
+            let stock = data[item];
+            setStocks((stocks) => [...stocks, stock.name]);
+          }
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(()=> {
+    if (!loadedStocks) {
+      getStocks().then(()=> {
+        setLoadedStocks(true)
+      })
+    } 
+  }, [])
 
   return (
     <Center>
       <Wrap align={"center"} justify="center">
-        {!loadingCharts ? (
-          companies.map((company, i) => {
+        {loadedStocks && stocks.length > 0 ? (
+          stocks.map((stock, i) => {
             return (
               <VStack
                 onClick={(e) => console.log(e)}
@@ -51,11 +61,11 @@ function Explore() {
                 <Center>
                   <Heading
                     as={Link}
-                    to={`/stock/${company}`}
+                    to={`/stock/${stock}`}
                     color={colorMode}
                     key={40 * i + 4}
                   >
-                    {company}
+                    {stock}
                   </Heading>
                 </Center>
                 <Box>
@@ -64,7 +74,7 @@ function Explore() {
                       autosize: true,
                       interval: "1m",
                       isTransparent: false,
-                      symbol: company,
+                      symbol: stock,
                       showIntervalTabs: true,
                       locale: "en",
                       colorTheme: "dark",
