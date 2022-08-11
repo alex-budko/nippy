@@ -19,6 +19,7 @@ import NotAuthenticated from "../auth_pages/NotAuthenticated";
 import { UserContext } from "../user-context/UserContext";
 import { moneyConvert } from "../utils/moneyConvert";
 import { SingleTicker } from "react-tradingview-embed";
+import { get_stocks } from "../action_functions/get_stocks";
 
 function Buy() {
   let STOCK_DATA = [];
@@ -55,48 +56,44 @@ function Buy() {
 
   const getStocks = async () => {
     setStocks([]);
-    try {
-      await fetch(`${process.env.REACT_APP_BACKEND_URL}/market/stocks/`)
-        .then((res) => res.json())
-        .then((data) => {
-          STOCK_DATA = data;
-          for (let item = 0; item < data.length; item++) {
-            let stock = data[item];
-            setStocks((stocks) => [
-              ...stocks,
-              { name: stock.name, price: stock.price },
-            ]);
-          }
-        })
-        .then(() => {
-          setSliderValue(
-            Array.from(
-              {
-                length: STOCK_DATA.length,
-              },
-              () => 1
-            )
+    get_stocks()
+      .then((data) => {
+        STOCK_DATA = data;
+        for (let item = 0; item < data.length; item++) {
+          let stock = data[item];
+          setStocks((stocks) => [
+            ...stocks,
+            { name: stock.name, price: stock.price },
+          ]);
+        }
+      })
+
+      .then(() => {
+        setSliderValue(
+          Array.from(
+            {
+              length: STOCK_DATA.length,
+            },
+            () => 1
+          )
+        );
+        let tickers = [];
+        for (let i = 0; i < STOCK_DATA.length; i++) {
+          tickers.push(
+            <SingleTicker
+              widgetProps={{
+                theme: "light",
+                symbol: STOCK_DATA[i].name,
+                width: 250,
+                autosize: false,
+                locale: "en",
+                colorTheme: "dark",
+              }}
+            />
           );
-          let tickers = [];
-          for (let i = 0; i < STOCK_DATA.length; i++) {
-            tickers.push(
-              <SingleTicker
-                widgetProps={{
-                  theme: "light",
-                  symbol: STOCK_DATA[i].name,
-                  width: 250,
-                  autosize: false,
-                  locale: "en",
-                  colorTheme: "dark",
-                }}
-              />
-            );
-          }
-          setTicker(tickers);
-        });
-    } catch (err) {
-      console.log(err);
-    }
+        }
+        setTicker(tickers);
+      });
   };
 
   useEffect(() => {

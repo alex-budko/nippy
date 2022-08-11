@@ -11,6 +11,7 @@ import Loader from "../utils/Loader";
 
 import { Link } from "react-router-dom";
 import { MiniChart } from "react-tradingview-embed";
+import { get_stocks } from "../action_functions/get_stocks";
 
 function Explore() {
   const [stocks, setStocks] = useState([]);
@@ -20,28 +21,22 @@ function Explore() {
   const colorMode = useColorModeValue("gray.50", "gray.200");
 
   const getStocks = async () => {
-    setStocks([]);
-    try {
-      await fetch(`${process.env.REACT_APP_BACKEND_URL}/market/stocks/`)
-        .then((res) => res.json())
-        .then((data) => {
-          for (let item = 0; item < data.length; item++) {
-            let stock = data[item];
-            setStocks((stocks) => [...stocks, stock.name]);
-          }
-        });
-    } catch (err) {
-      console.log(err);
-    }
+    get_stocks().then((data) => {
+      console.log(data)
+      for (let item = 0; item < data.length; item++) {
+        let stock = data[item];
+        setStocks((stocks) => [...stocks, stock.name]);
+      }
+    });
   };
 
-  useEffect(()=> {
+  useEffect(() => {
     if (!loadedStocks) {
-      getStocks().then(()=> {
-        setLoadedStocks(true)
-      })
-    } 
-  }, [])
+      getStocks().then(() => {
+        setLoadedStocks(true);
+      });
+    }
+  }, []);
 
   return (
     <Center>

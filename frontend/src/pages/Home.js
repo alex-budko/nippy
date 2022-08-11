@@ -13,6 +13,7 @@ import {
   import { HiOutlineDesktopComputer } from 'react-icons/hi';
 import { useEffect, useState } from 'react';
 import { get_users } from '../action_functions/get_users';
+import { get_stocks } from '../action_functions/get_stocks';
   
   
   function StatsCard(props) {
@@ -47,12 +48,20 @@ import { get_users } from '../action_functions/get_users';
   
   export default function Home() {
     const [userCount, setUserCount] = useState(0)
+    const [stockCount, setStockCount] = useState(0)
+    const [engineerCount, setEngineerCount] = useState(1)
+
     console.log(userCount)
     useEffect(()=> {
       get_users().then((users)=>{
         setUserCount(users.length)
       })  
     }, [])
+    useEffect(()=> {
+      get_stocks().then((stocks)=> {
+        setStockCount(stocks.length)
+      })
+    })
     return (
       <Box maxW="7xl" mx={'auto'} pt={5} px={{ base: 2, sm: 12, md: 17 }}>
         <chakra.h1
@@ -70,12 +79,12 @@ import { get_users } from '../action_functions/get_users';
           />
           <StatsCard
             title={'Stocks'}
-            stat={'1,539'}
+            stat={stockCount}
             icon={<AiOutlineStock size={'3em'} />}
           />
           <StatsCard
             title={'Software Engineers'}
-            stat={'1'}
+            stat={engineerCount}
             icon={<HiOutlineDesktopComputer size={'3em'} />}
           />
         </SimpleGrid>
