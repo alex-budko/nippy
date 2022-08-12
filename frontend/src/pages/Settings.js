@@ -20,16 +20,16 @@ export default function Settings() {
 
   const SETTING_OPTIONS = [
     {
-      name: "Terms of Service",
-      link: "/tos",
+      name: "About",
+      link: "/about",
     },
     {
       name: "Privacy Policy",
       link: "/privacy",
     },
     {
-      name: "Color Settings",
-      link: "/cs",
+      name: "Contact",
+      link: "/contact",
     },
   ];
 

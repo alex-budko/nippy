@@ -17,9 +17,10 @@ env = environ.Env()
 environ.Env.read_env()
 
 def add_stocks():
-    stock_array = stocks[:10]
+    stock_array = stocks[:20]
     for stock in stock_array:
-        Stock.objects.create(name=stock)
+        if not Stock.objects.filter(name=stock):
+            Stock.objects.create(name=stock)
 
 def update_stock_data():
     all_stocks = Stock.objects.all()
