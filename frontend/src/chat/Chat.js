@@ -33,7 +33,7 @@ function Chat() {
       get_messages().then((messages) => setMessages(messages));
       setSentMessage(false)
     }    
-  }, [sentMessage, chat.current]);
+  }, [sentMessage, chat, chat.current]);
 
   return (
     <Center>
@@ -80,8 +80,10 @@ function Chat() {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                setSentMessage(true);
-                create_message(username, e.target[0].value);
+                create_message(username, e.target[0].value).then(()=> {
+                  setSentMessage(true);
+                })
+                e.target[0].value = ''
               }}
             >
               <Input

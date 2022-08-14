@@ -27,6 +27,7 @@ import Stock from "./pages/Stock";
 import { TickerTape } from "react-tradingview-embed";
 import Chat from "./chat/Chat";
 import Privacy from "./pages/settings/Privacy";
+import Contact from "./pages/settings/Contact";
 
 function App() {
 
@@ -102,6 +103,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="buy" element={<Buy />} />
             <Route path="deposit" element={<Deposit />} />
+            <Route path="contact" element={<Contact />} />
             <Route path="privacy" element={<Privacy />} />
             <Route path="explore" element={<Explore />} />
             <Route path="settings" element={<Settings />} />

@@ -9,6 +9,10 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .stocks import stocks
 
+from django.core.mail import send_mail
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
 import requests
 
 import environ
@@ -60,6 +64,19 @@ def update_stock_data():
         stock.save()
     
     print('Done')
+
+@api_view(['POST'])
+def contact_message(req):
+    data = req.data
+    send_mail(
+        'Nippy Message from %s (%s)' % (data['name'], data['email']),
+        data['message'],
+        data['email'],
+        ['alex.budko2017@gmail.com'],
+        fail_silently=False,
+    )
+    return Response({'message': 'success'})
+
 
 
 class ReadOnly(BasePermission):
