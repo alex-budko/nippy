@@ -27,6 +27,9 @@ export const login = async (email, password) => {
           username: user_data["username"],
           email: user_data["email"],
           money: user_data["money"],
+          stocks: user_data["stocks"],
+          shorted_money: user_data["shorted_money"],
+          shorted_stocks: user_data["shorted_stocks"],
         };
         localStorage.setItem("user", JSON.stringify(user));
       });

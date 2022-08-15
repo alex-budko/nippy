@@ -28,6 +28,7 @@ import { TickerTape } from "react-tradingview-embed";
 import Chat from "./chat/Chat";
 import Privacy from "./pages/settings/Privacy";
 import Contact from "./pages/settings/Contact";
+import Short from "./pages/Short";
 
 function App() {
 
@@ -51,7 +52,7 @@ function App() {
   const [user, setUser] = useState(
     localStorage.getItem("user")
       ? JSON.parse(localStorage.getItem("user"))
-      : { username: "", email: "", money: 0, stocks: {} }
+      : { username: "", email: "", money: 0, shorted_money: 0, shorted_stocks: {}, stocks: {} }
   );
 
   const [showChat, setShowChat] = useState(false);
@@ -102,16 +103,20 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="buy" element={<Buy />} />
-            <Route path="deposit" element={<Deposit />} />
-            <Route path="contact" element={<Contact />} />
-            <Route path="privacy" element={<Privacy />} />
+            <Route path="short" element={<Short />} />
             <Route path="explore" element={<Explore />} />
-            <Route path="settings" element={<Settings />} />
             <Route path="leaderboard" element={<Leaderboard />} />
+            <Route path="deposit" element={<Deposit />} />
+
             <Route path="signup" element={<SignUp />} />
             <Route path="login" element={<LogIn />} />
+
             <Route path="stock/:stock" element={<Stock />} />
             <Route path="profile/:username" element={<Profile />} />
+
+            <Route path="settings" element={<Settings />} />
+            <Route path="contact" element={<Contact />} />
+            <Route path="privacy" element={<Privacy />} />
           </Routes>
         </Sidebar>
         <Wrap style={{zIndex: 5}} position={"fixed"} bottom="10" right="10" justify={"right"}>

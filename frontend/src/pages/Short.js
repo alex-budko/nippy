@@ -20,8 +20,9 @@ import { UserContext } from "../user-context/UserContext";
 import { moneyConvert } from "../utils/moneyConvert";
 import { SingleTicker } from "react-tradingview-embed";
 import { get_stocks } from "../action_functions/get_stocks";
+import { short_stock } from "../action_functions/short_stock";
 
-function Buy() {
+function Short() {
   let STOCK_DATA = [];
 
   const [_stocks, setStocks] = useState([]);
@@ -32,9 +33,9 @@ function Buy() {
 
   const { user, setUser } = useContext(UserContext);
 
-  const { username, money } = user;
+  const { username, shorted_money } = user;
 
-  const buyStock = (e, quantity) => {
+  const shortStock = (e, quantity) => {
     setSliderValue(
       Array.from(
         {
@@ -45,7 +46,7 @@ function Buy() {
     );
 
     //username, stock_name, stock_price
-    buy_stock(username, e.target.name, e.target.id, quantity, setUser).then(
+    short_stock(username, e.target.name, e.target.id, quantity, setUser).then(
       (res) => {
         if (res === "not_enough_money") {
           console.log("Not Enough Money");
@@ -110,10 +111,10 @@ function Buy() {
           shadow="dark-lg"
           rounded={"2xl"}
         >
-          <Heading>Available Money:</Heading>
+          <Heading>Shorted Money:</Heading>
           <Divider />
           <Center>
-            <Heading>${moneyConvert(money.toFixed(2))}</Heading>
+            <Heading>${moneyConvert(shorted_money.toFixed(2))}</Heading>
           </Center>
         </VStack>
       </Center>
@@ -138,15 +139,15 @@ function Buy() {
                       <Button
                         name={stock.name}
                         id={stock.price}
-                        onClick={(e) => buyStock(e, sliderValue[i])}
-                        bgColor="blue.300"
+                        onClick={(e) => shortStock(e, sliderValue[i])}
+                        bgColor="purple.300"
                         _hover={{
-                          bgColor: 'blue.500'
+                          bgColor: 'purple.500'
                         }}
                         mt="2"
                         width={"80%"}
                       >
-                        Buy
+                        Short
                       </Button>
                       <NumberInput
                         value={sliderValue[i]}
@@ -158,9 +159,7 @@ function Buy() {
                         defaultValue={1}
                         min={1}
                         max={
-                          Math.floor(money / stock.price) > 0
-                            ? Math.floor(money / stock.price)
-                            : 1
+                          100
                         }
                       >
                         <NumberInputField />
@@ -182,4 +181,4 @@ function Buy() {
   );
 }
 
-export default Buy;
+export default Short;

@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import {
   FiHome,
-  FiTrendingUp,
+  FiTrendingDown,
   FiCompass,
   FiSettings,
   FiMenu,
@@ -21,16 +21,21 @@ import {
 } from "react-icons/fi";
 
 import {
-  ImTrophy
-} from 'react-icons/im'
+  FaRegMoneyBillAlt
+} from 'react-icons/fa'
+
+import {
+  AiOutlineTrophy
+} from 'react-icons/ai'
 
 import { Link as ReactLink } from "react-router-dom";
 
 const LinkItems = [
   { name: "Home", icon: FiHome, href: '' },
-  { name: "Buy Stocks", icon: FiTrendingUp, href: '/buy'},
+  { name: "Buy", icon: FaRegMoneyBillAlt, href: '/buy'},
+  { name: "Short", icon: FiTrendingDown, href: '/short'},
   { name: "Explore", icon: FiCompass, href: '/explore'},
-  { name: "Leaderboard", icon: ImTrophy, href: '/leaderboard'},
+  { name: "Leaderboard", icon: AiOutlineTrophy, href: '/leaderboard'},
   {name: "Deposit", icon: FiCreditCard, href: '/deposit'},
   { name: "Settings", icon: FiSettings, href: '/settings'},
 ];
