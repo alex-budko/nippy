@@ -9,6 +9,7 @@ import {
   NumberInput,
   NumberInputField,
   NumberInputStepper,
+  Text,
   VStack,
   Wrap,
   WrapItem,
@@ -33,7 +34,7 @@ function Short() {
 
   const { user, setUser } = useContext(UserContext);
 
-  const { username, money } = user;
+  const { username, money, shorted_stocks } = user;
 
   const shortStock = (e, quantity) => {
     setSliderValue(
@@ -66,10 +67,7 @@ function Short() {
     );
 
     //username, stock_name, stock_price
-    return_stock(username, e.target.name, quantity, setUser).then(
-      (res) => {
-      }
-    );
+    return_stock(username, e.target.name, quantity, setUser).then((res) => {});
   };
 
   const getStocks = async () => {
@@ -153,13 +151,19 @@ function Short() {
                     </Box>
 
                     <VStack>
+                      {stock.name in shorted_stocks &&
+                        shorted_stocks[stock.name] > 0 && (
+                          <Text fontSize={"lg"}>
+                            Count: {shorted_stocks[stock.name]}
+                          </Text>
+                        )}
                       <Button
                         name={stock.name}
                         id={stock.price}
                         onClick={(e) => shortStock(e, sliderValue[i])}
                         bgColor="purple.300"
                         _hover={{
-                          bgColor: 'purple.500'
+                          bgColor: "purple.500",
                         }}
                         mt="2"
                         width={"80%"}
@@ -175,9 +179,7 @@ function Short() {
                         }}
                         defaultValue={1}
                         min={1}
-                        max={
-                          100
-                        }
+                        max={100}
                       >
                         <NumberInputField />
                         <NumberInputStepper>
@@ -192,7 +194,7 @@ function Short() {
                         onClick={(e) => returnStock(e, sliderValue[i])}
                         bgColor="red.300"
                         _hover={{
-                          bgColor: 'red.500'
+                          bgColor: "red.500",
                         }}
                         mt="2"
                         width={"80%"}

@@ -9,6 +9,7 @@ import {
   NumberInput,
   NumberInputField,
   NumberInputStepper,
+  Text,
   VStack,
   Wrap,
   WrapItem,
@@ -20,6 +21,7 @@ import { UserContext } from "../user-context/UserContext";
 import { moneyConvert } from "../utils/moneyConvert";
 import { SingleTicker } from "react-tradingview-embed";
 import { get_stocks } from "../action_functions/get_stocks";
+import { sell_stock } from "../action_functions/sell_stock";
 
 function Buy() {
   let STOCK_DATA = [];
@@ -32,7 +34,7 @@ function Buy() {
 
   const { user, setUser } = useContext(UserContext);
 
-  const { username, money } = user;
+  const { username, money, stocks } = user;
 
   const buyStock = (e, quantity) => {
     setSliderValue(
@@ -52,6 +54,20 @@ function Buy() {
         }
       }
     );
+  };
+
+  const sellStock = (e, quantity) => {
+    setSliderValue(
+      Array.from(
+        {
+          length: _stocks.length,
+        },
+        () => 1
+      )
+    );
+
+    //username, stock_name, stock_price
+    sell_stock(username, e.target.name, quantity, setUser);
   };
 
   const getStocks = async () => {
@@ -135,13 +151,16 @@ function Buy() {
                     </Box>
 
                     <VStack>
+                      {stock.name in stocks && stocks[stock.name] > 0 && (
+                        <Text fontSize={"lg"}>Count: {stocks[stock.name]}</Text>
+                      )}
                       <Button
                         name={stock.name}
                         id={stock.price}
                         onClick={(e) => buyStock(e, sliderValue[i])}
                         bgColor="blue.300"
                         _hover={{
-                          bgColor: 'blue.500'
+                          bgColor: "blue.500",
                         }}
                         mt="2"
                         width={"80%"}
@@ -169,6 +188,20 @@ function Buy() {
                           <NumberDecrementStepper />
                         </NumberInputStepper>
                       </NumberInput>
+                    </VStack>
+                    <VStack>
+                      <Button
+                        name={stock.name}
+                        onClick={(e) => sellStock(e, sliderValue[i])}
+                        bgColor="pink.300"
+                        _hover={{
+                          bgColor: "pink.500",
+                        }}
+                        mt="2"
+                        width={"80%"}
+                      >
+                        Sell
+                      </Button>
                     </VStack>
                   </Box>
                 </WrapItem>
