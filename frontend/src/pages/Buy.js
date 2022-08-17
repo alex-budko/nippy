@@ -38,7 +38,7 @@ function Buy() {
     setSliderValue(
       Array.from(
         {
-          length: STOCK_DATA.length,
+          length: _stocks.length,
         },
         () => 1
       )

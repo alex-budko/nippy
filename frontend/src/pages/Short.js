@@ -14,13 +14,13 @@ import {
   WrapItem,
 } from "@chakra-ui/react";
 import React, { Fragment, useContext, useEffect, useState } from "react";
-import { buy_stock } from "../action_functions/buy_stock";
 import NotAuthenticated from "../auth_pages/NotAuthenticated";
 import { UserContext } from "../user-context/UserContext";
 import { moneyConvert } from "../utils/moneyConvert";
 import { SingleTicker } from "react-tradingview-embed";
 import { get_stocks } from "../action_functions/get_stocks";
 import { short_stock } from "../action_functions/short_stock";
+import { return_stock } from "../action_functions/return_stock";
 
 function Short() {
   let STOCK_DATA = [];
@@ -33,13 +33,13 @@ function Short() {
 
   const { user, setUser } = useContext(UserContext);
 
-  const { username, shorted_money } = user;
+  const { username, money } = user;
 
   const shortStock = (e, quantity) => {
     setSliderValue(
       Array.from(
         {
-          length: STOCK_DATA.length,
+          length: _stocks.length,
         },
         () => 1
       )
@@ -51,6 +51,23 @@ function Short() {
         if (res === "not_enough_money") {
           console.log("Not Enough Money");
         }
+      }
+    );
+  };
+
+  const returnStock = (e, quantity) => {
+    setSliderValue(
+      Array.from(
+        {
+          length: _stocks.length,
+        },
+        () => 1
+      )
+    );
+
+    //username, stock_name, stock_price
+    return_stock(username, e.target.name, quantity, setUser).then(
+      (res) => {
       }
     );
   };
@@ -111,10 +128,10 @@ function Short() {
           shadow="dark-lg"
           rounded={"2xl"}
         >
-          <Heading>Shorted Money:</Heading>
+          <Heading>Money:</Heading>
           <Divider />
           <Center>
-            <Heading>${moneyConvert(shorted_money.toFixed(2))}</Heading>
+            <Heading>${moneyConvert(money.toFixed(2))}</Heading>
           </Center>
         </VStack>
       </Center>
@@ -153,7 +170,7 @@ function Short() {
                         value={sliderValue[i]}
                         onChange={(num) => {
                           let newSlider = [...sliderValue];
-                          newSlider[i] = num.valueOf();
+                          newSlider[i] = +num;
                           setSliderValue(newSlider);
                         }}
                         defaultValue={1}
@@ -168,6 +185,20 @@ function Short() {
                           <NumberDecrementStepper />
                         </NumberInputStepper>
                       </NumberInput>
+                    </VStack>
+                    <VStack>
+                      <Button
+                        name={stock.name}
+                        onClick={(e) => returnStock(e, sliderValue[i])}
+                        bgColor="red.300"
+                        _hover={{
+                          bgColor: 'red.500'
+                        }}
+                        mt="2"
+                        width={"80%"}
+                      >
+                        Return
+                      </Button>
                     </VStack>
                   </Box>
                 </WrapItem>

@@ -51,7 +51,6 @@ import { get_stocks } from '../action_functions/get_stocks';
     const [stockCount, setStockCount] = useState(0)
     const [engineerCount, setEngineerCount] = useState(1)
 
-    console.log(userCount)
     useEffect(()=> {
       get_users().then((users)=>{
         setUserCount(users.length)

@@ -45,7 +45,7 @@ function Leaderboard() {
             <Tr>
               <Th>Rank</Th>
               <Th>Username</Th>
-              <Th>Money</Th>
+              <Th>Net Worth</Th>
               <Th>Profile</Th>
             </Tr>
           </Thead>
@@ -55,7 +55,7 @@ function Leaderboard() {
                 <Tr>
                   <Td>{i + 1}</Td>
                   <Td>{user.username}</Td>
-                  <Td>${moneyConvert(user.money.toFixed(2))}</Td>
+                  <Td>${moneyConvert((user.money).toFixed(2))}</Td>
                   <Td>
                     <Avatar
                       as={Link}

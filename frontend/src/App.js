@@ -52,7 +52,7 @@ function App() {
   const [user, setUser] = useState(
     localStorage.getItem("user")
       ? JSON.parse(localStorage.getItem("user"))
-      : { username: "", email: "", money: 0, shorted_money: 0, shorted_stocks: {}, stocks: {} }
+      : { username: "", email: "", money: 0, shorted_stocks: {}, stocks: {} }
   );
 
   const [showChat, setShowChat] = useState(false);

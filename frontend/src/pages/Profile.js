@@ -38,6 +38,7 @@ function Profile() {
     email: "",
     money: 0,
     stocks: {},
+    shorted_stocks: {},
   });
 
   const [Ticker, setTicker] = useState([]);
@@ -120,10 +121,10 @@ function Profile() {
               />
             </Center>
             <HStack>
-              <Heading color={"blue.600"}>Worth:</Heading>
+              <Heading color={"blue.600"}>Net Worth:</Heading>
               <Heading color={"gray.50"}>
                 {profileUser.money && (
-                  <>${moneyConvert(profileUser.money.toFixed(2))} </>
+                  <>${moneyConvert((profileUser.money).toFixed(2))} </>
                 )}
               </Heading>
             </HStack>

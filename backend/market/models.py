@@ -5,7 +5,7 @@ from django.contrib.auth.models import (
 from django.contrib.humanize.templatetags import humanize
 
 class UserAccountManager(BaseUserManager):
-    def create(self, username, email, money=500000, shorted_money = 0, password=None):
+    def create(self, username, email, money=500000, password=None):
         if not email:
             raise ValueError('Users must have an email address')
 
@@ -13,7 +13,6 @@ class UserAccountManager(BaseUserManager):
             email=self.normalize_email(email),
             username=username,
             money=float(money),
-            shorted_money=float(shorted_money)
         )
 
         user.set_password(password)
@@ -21,7 +20,7 @@ class UserAccountManager(BaseUserManager):
 
         return user
 
-    def create_user(self, username, email, money=500000, shorted_money=0, password=None):
+    def create_user(self, username, email, money=500000, password=None):
         if not email:
             raise ValueError('Users must have an email address')
 
@@ -29,7 +28,6 @@ class UserAccountManager(BaseUserManager):
             email=self.normalize_email(email),
             username=username,
             money=float(money),
-            shorted_money=float(shorted_money)
         )
 
         user.set_password(password)
@@ -37,13 +35,12 @@ class UserAccountManager(BaseUserManager):
 
         return user
 
-    def create_superuser(self, email, username, money=500000, shorted_money=0, password=None):
+    def create_superuser(self, email, username, money=500000, password=None):
         user = self.create_user(
             email,
             password=password,
             username=username,
             money=float(money),
-            shorted_money=float(shorted_money)
         )
 
         user.is_admin = True
@@ -64,7 +61,6 @@ class UserAccount(AbstractBaseUser):
         max_length=265, primary_key=True, unique=True, blank=False)
 
     money = models.FloatField(default=500000.0)
-    shorted_money = models.FloatField(default=0.0)
 
     stocks = models.JSONField(default=dict({}))
 

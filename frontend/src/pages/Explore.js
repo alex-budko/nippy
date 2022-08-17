@@ -22,7 +22,6 @@ function Explore() {
 
   const getStocks = async () => {
     get_stocks().then((data) => {
-      console.log(data)
       for (let item = 0; item < data.length; item++) {
         let stock = data[item];
         setStocks((stocks) => [...stocks, stock.name]);

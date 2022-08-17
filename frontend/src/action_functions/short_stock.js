@@ -21,7 +21,7 @@ export const short_stock = async (
     } else {
       user.shorted_stocks[stock_name] = +quantity;
     }
-    user.shorted_money += stock_price * +quantity;
+    user.money += stock_price * +quantity;
     localStorage.setItem("user", JSON.stringify(user));
     setUser(user);
 
