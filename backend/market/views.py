@@ -21,7 +21,7 @@ env = environ.Env()
 environ.Env.read_env()
 
 def add_stocks():
-    stock_array = stocks[:20]
+    stock_array = stocks[:40]
     for stock in stock_array:
         if not Stock.objects.filter(name=stock):
             Stock.objects.create(name=stock)
@@ -41,7 +41,7 @@ def update_stock_data():
 
         if stockNum > 5:
             stockNum = 1
-            time.sleep(61)
+            time.sleep(60)
 
         response1 = requests.get(url1)
         
@@ -49,7 +49,7 @@ def update_stock_data():
 
         if stockNum > 5:
             stockNum = 1
-            time.sleep(61)
+            time.sleep(60)
 
         response2 = requests.get(url2)
 
@@ -59,9 +59,10 @@ def update_stock_data():
         stock.data = data
 
         print(stock.name)
-        stock.price = float(price_data["Global Quote"]["05. price"])
 
-        stock.save()
+        if price_data["Global Quote"]:
+            stock.price = float(price_data["Global Quote"]["05. price"])
+            stock.save()
     
     print('Done')
 
