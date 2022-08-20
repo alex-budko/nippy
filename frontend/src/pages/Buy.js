@@ -22,6 +22,7 @@ import { moneyConvert } from "../utils/moneyConvert";
 import { SingleTicker } from "react-tradingview-embed";
 import { get_stocks } from "../action_functions/get_stocks";
 import { sell_stock } from "../action_functions/sell_stock";
+import { update_stocks } from "../action_functions/update_stocks";
 
 function Buy() {
   let STOCK_DATA = [];
@@ -126,7 +127,7 @@ function Buy() {
           shadow="dark-lg"
           rounded={"2xl"}
         >
-          <Heading>Available Money:</Heading>
+          <Heading onClick={()=>update_stocks()}>Available Money:</Heading>
           <Divider />
           <Center>
             <Heading>${moneyConvert(money.toFixed(2))}</Heading>
