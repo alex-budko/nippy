@@ -38,9 +38,9 @@ def update_stock_data(req):
 
     for stock in all_stocks:
         
-        url1 = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&interval=5min&symbol=%s&apikey=%s' % (stock.name, env('API_KEY'))
+        url1 = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&interval=5min&symbol=%s&apikey=%s' % (stock.name, 'F2831YU5EBL9X0I')
 
-        url2 = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=%s&apikey=%s' % (stock.name, env('API_KEY'))
+        url2 = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=%s&apikey=%s' % (stock.name, 'F2831YU5EBL9X0I')
 
         stockNum += 1
 
