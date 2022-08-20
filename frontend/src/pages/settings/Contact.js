@@ -18,6 +18,7 @@ import {
     useClipboard,
     useColorModeValue,
     VStack,
+    Divider,
   } from '@chakra-ui/react';
   import React, { useState } from 'react';
   import { BsGithub, BsPerson, } from 'react-icons/bs';
@@ -42,7 +43,7 @@ import { send_message } from '../../action_functions/send_message';
           m={{ base: 5, md: 10, lg: 5 }}
           p={{ base: 5, lg: 16 }}>
           <Box>
-            <VStack spacing={{ base: 4, md: 8, lg: 20 }}>
+            <VStack spacing={{ base: 2, md: 4, lg: 10 }}>
               <Heading
                 fontSize={{
                   base: '4xl',
@@ -50,7 +51,6 @@ import { send_message } from '../../action_functions/send_message';
                 }}>
                 Get in Touch
               </Heading>
-  
               <Stack>
                 <HStack
                   align="center"

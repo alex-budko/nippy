@@ -20,19 +20,27 @@ export default function Deposit() {
       heading: "Light",
       price: "4.99",
       perks: ["Unlimited Name Change", "$100,000 Virtual Dollars"],
-      color: 'green.600',
+      color: "green.600",
     },
     {
       heading: "Normal",
       price: "14.99",
-      perks: ["Unlimited Name Change", "$500,000 Virtual Dollars", "Compete in Weekly Tournaments"],
-      color: 'red.600',
+      perks: [
+        "Unlimited Name Change",
+        "$500,000 Virtual Dollars",
+        "Compete in Weekly Tournaments",
+      ],
+      color: "red.600",
     },
     {
       heading: "Premium",
       price: "24.99",
-      perks: ["Unlimited Name Change", "$1,500,000 Virtual Dollars", "Compete in Weekly Tournaments"],
-      color: 'yellow.600',
+      perks: [
+        "Unlimited Name Change",
+        "$1,500,000 Virtual Dollars",
+        "Compete in Weekly Tournaments",
+      ],
+      color: "yellow.600",
     },
   ];
   return (
@@ -41,7 +49,7 @@ export default function Deposit() {
         return (
           <WrapItem>
             <Box
-            key={i}
+              key={i}
               role={"group"}
               p={6}
               minW={"240px"}
@@ -54,21 +62,45 @@ export default function Deposit() {
               pos={"relative"}
               zIndex={1}
             >
-              <VStack spacing={'5'}>
+              <VStack spacing={"5"}>
                 <Heading>{option.heading}</Heading>
                 <Divider />
-                <Heading>${option.price}</Heading>
-                <VStack >
+                <HStack>
+                  <Heading
+                    style={{
+                      textDecorationLine: "line-through",
+                      textDecorationStyle: "solid",
+                    }}
+                  >
+                    ${option.price}
+                  </Heading>
+                  <Heading>$0</Heading>
+                </HStack>
+                <VStack>
                   {option.perks.map((perk) => {
                     return (
-                      <HStack rounded='3xl' shadow={"dark-lg"} bgColor="gray.800" p="3">
-                        <CheckIcon color='green.600' />
+                      <HStack
+                        rounded="3xl"
+                        shadow={"dark-lg"}
+                        bgColor="gray.800"
+                        p="3"
+                      >
+                        <CheckIcon color="green.600" />
                         <Text>{perk}</Text>
                       </HStack>
                     );
                   })}
                 </VStack>
-                <Button position='absolute' bottom={'5'} width={'80%'} bgColor={option.color} size='lg'>Purchase</Button>
+                <Button
+                  position="absolute"
+                  bottom={"5"}
+                  width={"80%"}
+                  bgColor={option.color}
+                  size="lg"
+                  disabled={true}
+                >
+                  Purchase
+                </Button>
               </VStack>
             </Box>
           </WrapItem>

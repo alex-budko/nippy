@@ -27,6 +27,7 @@ import Stock from "./pages/Stock";
 import { TickerTape } from "react-tradingview-embed";
 import Chat from "./chat/Chat";
 import Privacy from "./pages/settings/Privacy";
+import About from "./pages/settings/About";
 import Contact from "./pages/settings/Contact";
 import Short from "./pages/Short";
 
@@ -71,14 +72,15 @@ function App() {
     <Router>
       <UserContext.Provider value={_user}>
         <Sidebar>
-          <Wrap justify={"right"}>
-            <Box minW={"92%"} zIndex="2">
+          <Wrap justify={"center"}>
+            <Box minW={"80%"} zIndex="2">
               <T_ />
             </Box>
 
             {user.username !== "" ? (
               <WrapItem _hover={{ cursor: "pointer" }}>
                 <Avatar
+                  ml='2'
                   mb={"2"}
                   as={Link}
                   to={`/profile/${user.username}`}
@@ -115,6 +117,7 @@ function App() {
             <Route path="profile/:username" element={<Profile />} />
 
             <Route path="settings" element={<Settings />} />
+            <Route path="about" element={<About />} />
             <Route path="contact" element={<Contact />} />
             <Route path="privacy" element={<Privacy />} />
           </Routes>

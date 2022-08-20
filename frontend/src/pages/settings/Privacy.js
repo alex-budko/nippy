@@ -1,12 +1,13 @@
-import { Heading, Text, VStack } from "@chakra-ui/react";
+import { Divider, Heading, Text, VStack } from "@chakra-ui/react";
 import React from "react";
 import { Link } from "react-router-dom";
 
 function Privacy() {
   return (
-    <VStack p='5' spacing={'3'} bgColor='gray.800' rounded={'3xl'} shadow='dark-lg'>
+    <VStack p='10' spacing={'3'} bgColor='gray.800' rounded={'3xl'} shadow='dark-lg'>
       <Heading size='xl'>Privacy Policy</Heading>
-      <Text>Last updated: August 12, 2022</Text>
+      <Divider />
+      <Text>Last updated: <i>August 19, 2022</i></Text>
       <Text>
         This Privacy Policy describes Our policies and procedures on the
         collection, use and disclosure of Your information when You use the
@@ -88,11 +89,11 @@ function Privacy() {
           <Text>
             <strong>Website</strong> refers to Nippy, accessible from{" "}
             <a
-              href="https:www.nippy.com"
+              href="https://nippys.herokuapps.com"
               rel="external nofollow noopener"
               target="_blank"
             >
-              https:www.nippy.com
+              https://nippys.herokuapps.com
             </a>
           </Text>
         </li>
@@ -486,7 +487,7 @@ function Privacy() {
           <Link
             to='/contact'
           >
-            https://www.nippy.com/contact
+            https://www.nippys.herokuapps.com/contact
           </Link>
         </li>
       </ul>

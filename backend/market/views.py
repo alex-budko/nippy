@@ -20,13 +20,18 @@ import environ
 env = environ.Env()
 environ.Env.read_env()
 
-def add_stocks():
+@api_view(['POST'])
+def add_stocks(req):
+    print('adding stocks')
     stock_array = stocks[:40]
     for stock in stock_array:
         if not Stock.objects.filter(name=stock):
             Stock.objects.create(name=stock)
+    
+    return Response({'message': 'success'})  
 
-def update_stock_data():
+@api_view(['POST'])
+def update_stock_data(req):
     all_stocks = Stock.objects.all()
 
     stockNum = 1
@@ -65,6 +70,8 @@ def update_stock_data():
             stock.save()
     
     print('Done')
+    return Response({'message': 'success'})  
+
 
 @api_view(['POST'])
 def contact_message(req):
@@ -77,8 +84,6 @@ def contact_message(req):
         fail_silently=False,
     )
     return Response({'message': 'success'})
-
-
 
 class ReadOnly(BasePermission):
     def has_permission(self, request, view):
