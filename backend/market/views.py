@@ -1,5 +1,7 @@
 import time
 
+import asyncio
+
 from .models import Message, Stock, UserAccount
 from .serializers import MessageSerializer, UserAccountSerializer, StockSerializer
 from rest_framework import generics
@@ -31,7 +33,7 @@ def add_stocks(req):
     return Response({'message': 'success'})  
 
 @api_view(['POST'])
-def update_stock_data(req):
+async def update_stock_data(req):
     all_stocks = Stock.objects.all()
 
     stockNum = 1
@@ -46,7 +48,7 @@ def update_stock_data(req):
 
         if stockNum > 5:
             stockNum = 1
-            time.sleep(60)
+            await asyncio.sleep(60)
 
         response1 = requests.get(url1)
         
@@ -54,7 +56,7 @@ def update_stock_data(req):
 
         if stockNum > 5:
             stockNum = 1
-            time.sleep(60)
+            await asyncio.sleep(60)
 
         response2 = requests.get(url2)
 
