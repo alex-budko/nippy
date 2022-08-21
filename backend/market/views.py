@@ -1,5 +1,3 @@
-import time
-
 import asyncio
 
 from .models import Message, Stock, UserAccount
@@ -32,8 +30,8 @@ def add_stocks(req):
     
     return Response({'message': 'success'})  
 
-@api_view(['POST'])
-async def update_stock_data(req):
+# @api_view(['POST'])
+def update_stock_data():
     all_stocks = Stock.objects.all()
 
     stockNum = 1
@@ -48,7 +46,7 @@ async def update_stock_data(req):
 
         if stockNum > 5:
             stockNum = 1
-            await asyncio.sleep(60)
+            asyncio.sleep(60)
 
         response1 = requests.get(url1)
         
@@ -56,7 +54,7 @@ async def update_stock_data(req):
 
         if stockNum > 5:
             stockNum = 1
-            await asyncio.sleep(60)
+            asyncio.sleep(60)
 
         response2 = requests.get(url2)
 

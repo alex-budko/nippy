@@ -152,8 +152,8 @@ function Buy() {
 
                     <VStack>
                       {stock.name in stocks && stocks[stock.name] > 0 && (
-                        <Text fontSize={"lg"}>Count: {stocks[stock.name]}</Text>
-                      )}
+                        <Box fontSize={"lg"} bgColor='gray.700' p='2' shadow='dark-lg' rounded={'3xl'}>Count: {stocks[stock.name]}</Box>
+                     )}
                       <Button
                         name={stock.name}
                         id={stock.price}

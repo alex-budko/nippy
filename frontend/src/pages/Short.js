@@ -153,9 +153,9 @@ function Short() {
                     <VStack>
                       {stock.name in shorted_stocks &&
                         shorted_stocks[stock.name] > 0 && (
-                          <Text fontSize={"lg"}>
+                          <Box fontSize={"lg"} bgColor='gray.700' p='2' shadow='dark-lg' rounded={'3xl'}>
                             Count: {shorted_stocks[stock.name]}
-                          </Text>
+                          </Box>
                         )}
                       <Button
                         name={stock.name}
