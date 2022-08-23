@@ -70,6 +70,7 @@ function Short() {
     return_stock(username, e.target.name, quantity, setUser).then((res) => {});
   };
 
+  // gets stocks from the backend
   const getStocks = async () => {
     setStocks([]);
     get_stocks()
@@ -116,6 +117,7 @@ function Short() {
     getStocks();
   }, []);
 
+  // if the user is authenticated
   return username !== "" ? (
     <Fragment>
       <Center>
@@ -150,6 +152,7 @@ function Short() {
                       {Ticker[i]}
                     </Box>
 
+                    {/* if the stock is owned, count is shown */}
                     <VStack>
                       {stock.name in shorted_stocks &&
                         shorted_stocks[stock.name] > 0 && (
