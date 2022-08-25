@@ -31,45 +31,79 @@ def add_stocks(req):
     return Response({'message': 'success'})  
 
 # @api_view(['POST'])
-def update_stock_data():
+# def update_stock_data():
+#     all_stocks = Stock.objects.all()
+
+#     stockNum = 1
+
+#     for stock in all_stocks:
+        
+#         url1 = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&interval=5min&symbol=%s&apikey=%s' % (stock.name, 'F2831YU5EBL9X0I')
+
+#         url2 = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=%s&apikey=%s' % (stock.name, 'F2831YU5EBL9X0I')
+
+#         stockNum += 1
+
+#         if stockNum > 5:
+#             stockNum = 1
+#             asyncio.sleep(60)
+
+#         response1 = requests.get(url1)
+        
+#         stockNum += 1
+
+#         if stockNum > 5:
+#             stockNum = 1
+#             asyncio.sleep(60)
+
+#         response2 = requests.get(url2)
+
+#         data = response1.json()
+#         price_data = response2.json()
+
+#         stock.data = data
+
+#         print(stock.name)
+
+#         if price_data["Global Quote"]:
+#             stock.price = float(price_data["Global Quote"]["05. price"])
+#             stock.save()
+    
+#     print('Done')
+#     return Response({'message': 'success'})  
+
+@api_view(['POST'])
+def update_stock_data(req):
+    
+    num = req.num
     all_stocks = Stock.objects.all()
 
-    stockNum = 1
+    url1 = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&interval=5min&symbol=%s&apikey=%s' % (all_stocks[num].name, 'F2831YU5EBL9X0I')
 
-    for stock in all_stocks:
+    url2 = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=%s&apikey=%s' % (all_stocks[num].name, 'F2831YU5EBL9X0I')
+    response1 = requests.get(url1)
         
-        url1 = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&interval=5min&symbol=%s&apikey=%s' % (stock.name, 'F2831YU5EBL9X0I')
+    response2 = requests.get(url2)
+    data = response1.json()
+    price_data = response2.json()
+    all_stocks[num].data = data
+    all_stocks[num].price = float(price_data["Global Quote"]["05. price"])
+    all_stocks[num].save()
 
-        url2 = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=%s&apikey=%s' % (stock.name, 'F2831YU5EBL9X0I')
+    url1 = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&interval=5min&symbol=%s&apikey=%s' % (all_stocks[num + 1].name, 'F2831YU5EBL9X0I')
 
-        stockNum += 1
-
-        if stockNum > 5:
-            stockNum = 1
-            asyncio.sleep(60)
-
-        response1 = requests.get(url1)
+    url2 = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=%s&apikey=%s' % (all_stocks[num + 1].name, 'F2831YU5EBL9X0I')
+    response1 = requests.get(url1)
         
-        stockNum += 1
+    response2 = requests.get(url2)
+    data = response1.json()
+    price_data = response2.json()
+    all_stocks[num + 1].data = data
+    all_stocks[num + 1].price = float(price_data["Global Quote"]["05. price"])
+    all_stocks[num + 1].save()
 
-        if stockNum > 5:
-            stockNum = 1
-            asyncio.sleep(60)
-
-        response2 = requests.get(url2)
-
-        data = response1.json()
-        price_data = response2.json()
-
-        stock.data = data
-
-        print(stock.name)
-
-        if price_data["Global Quote"]:
-            stock.price = float(price_data["Global Quote"]["05. price"])
-            stock.save()
-    
     print('Done')
+
     return Response({'message': 'success'})  
 
 
