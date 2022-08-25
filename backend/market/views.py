@@ -20,6 +20,7 @@ import environ
 env = environ.Env()
 environ.Env.read_env()
 
+
 @api_view(['POST'])
 def add_stocks(req):
     print('adding stocks')
@@ -27,85 +28,41 @@ def add_stocks(req):
     for stock in stock_array:
         if not Stock.objects.filter(name=stock):
             Stock.objects.create(name=stock)
-    
-    return Response({'message': 'success'})  
 
-# @api_view(['POST'])
-# def update_stock_data():
-#     all_stocks = Stock.objects.all()
+    return Response({'message': 'success'})
 
-#     stockNum = 1
 
-#     for stock in all_stocks:
-        
-#         url1 = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&interval=5min&symbol=%s&apikey=%s' % (stock.name, 'F2831YU5EBL9X0I')
-
-#         url2 = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=%s&apikey=%s' % (stock.name, 'F2831YU5EBL9X0I')
-
-#         stockNum += 1
-
-#         if stockNum > 5:
-#             stockNum = 1
-#             asyncio.sleep(60)
-
-#         response1 = requests.get(url1)
-        
-#         stockNum += 1
-
-#         if stockNum > 5:
-#             stockNum = 1
-#             asyncio.sleep(60)
-
-#         response2 = requests.get(url2)
-
-#         data = response1.json()
-#         price_data = response2.json()
-
-#         stock.data = data
-
-#         print(stock.name)
-
-#         if price_data["Global Quote"]:
-#             stock.price = float(price_data["Global Quote"]["05. price"])
-#             stock.save()
-    
-#     print('Done')
-#     return Response({'message': 'success'})  
-
-@api_view(['GET'])
-def update_stock_data(req, pk, format=None):
-    
-    num = pk
-
+@api_view(['POST'])
+def update_stock_data():
     all_stocks = Stock.objects.all()
 
-    url1 = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&interval=5min&symbol=%s&apikey=%s' % (all_stocks[num].name, 'F2831YU5EBL9X0I')
+    for stock in all_stocks:
+        if stockNum == 2:
+            break
 
-    url2 = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=%s&apikey=%s' % (all_stocks[num].name, 'F2831YU5EBL9X0I')
-    response1 = requests.get(url1)
-        
-    response2 = requests.get(url2)
-    data = response1.json()
-    price_data = response2.json()
-    all_stocks[num].data = data
-    all_stocks[num].price = float(price_data["Global Quote"]["05. price"])
-    all_stocks[num].save()
+        if stock.price == 0.0:
 
-    url1 = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&interval=5min&symbol=%s&apikey=%s' % (all_stocks[num + 1].name, 'F2831YU5EBL9X0I')
+            url1 = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&interval=5min&symbol=%s&apikey=%s' % (
+                stock.name, 'F2831YU5EBL9X0I')
 
-    url2 = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=%s&apikey=%s' % (all_stocks[num + 1].name, 'F2831YU5EBL9X0I')
-    response1 = requests.get(url1)
-        
-    response2 = requests.get(url2)
-    data = response1.json()
-    price_data = response2.json()
-    all_stocks[num + 1].data = data
-    all_stocks[num + 1].price = float(price_data["Global Quote"]["05. price"])
-    all_stocks[num + 1].save()
+            url2 = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=%s&apikey=%s' % (
+                stock.name, 'F2831YU5EBL9X0I')
 
-    print('Done')
+            stockNum += 1
 
-    return Response({'message': 'success'})  
+            response1 = requests.get(url1)
+
+            response2 = requests.get(url2)
+
+            data = response1.json()
+            price_data = response2.json()
+
+            stock.data = data
+
+            stock.price = float(price_data["Global Quote"]["05. price"])
+            stock.save()
+
+    return Response({'message': 'success'})
 
 
 @api_view(['POST'])
@@ -120,46 +77,56 @@ def contact_message(req):
     )
     return Response({'message': 'success'})
 
+
 class ReadOnly(BasePermission):
     def has_permission(self, request, view):
         return request.method in SAFE_METHODS
+
 
 class UserRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     # permission_classes = [IsAuthenticated|ReadOnly]
     queryset = UserAccount.objects.all()
     serializer_class = UserAccountSerializer
-    lookup_field='username'
+    lookup_field = 'username'
+
 
 class UserListCreate(generics.ListCreateAPIView):
     queryset = UserAccount.objects.all().order_by('-money')
     serializer_class = UserAccountSerializer
 
+
 class StockList(generics.ListAPIView):
     queryset = Stock.objects.all().order_by('-price')
     serializer_class = StockSerializer
 
+
 class StockCreate(generics.CreateAPIView):
-    queryset = Stock.objects.all() 
+    queryset = Stock.objects.all()
     serializer_class = StockSerializer
+
 
 class MessageList(generics.ListAPIView):
     queryset = Message.objects.all().order_by('-id')
     serializer_class = MessageSerializer
 
+
 class MessageCreate(generics.CreateAPIView):
-    queryset = Message.objects.all() 
+    queryset = Message.objects.all()
     serializer_class = MessageSerializer
 
+
 class MessageRetrieveDestroy(generics.RetrieveDestroyAPIView):
-    queryset = Message.objects.all() 
+    queryset = Message.objects.all()
     serializer_class = MessageSerializer
-    lookup_field='id'
+    lookup_field = 'id'
+
 
 class StockRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     # permission_classes = [IsAuthenticated|ReadOnly]
     queryset = Stock.objects.all()
     serializer_class = StockSerializer
-    lookup_field='name'
+    lookup_field = 'name'
+
 
 class ModdedTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -175,7 +142,6 @@ class ModdedTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         return token
 
+
 class ModdedTokenObtainPairView(TokenObtainPairView):
     serializer_class = ModdedTokenObtainPairSerializer
-
-    
