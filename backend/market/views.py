@@ -32,9 +32,11 @@ def add_stocks(req):
     return Response({'message': 'success'})
 
 
-@api_view(['POST'])
-def update_stock_data(req):
+@api_view(['GET'])
+def update_stock_data():
     all_stocks = Stock.objects.all()
+
+    stockNum = 0
 
     for stock in all_stocks:
         if stockNum == 2:
