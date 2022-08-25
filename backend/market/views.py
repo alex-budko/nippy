@@ -33,7 +33,7 @@ def add_stocks(req):
 
 
 @api_view(['POST'])
-def update_stock_data():
+def update_stock_data(req):
     all_stocks = Stock.objects.all()
 
     for stock in all_stocks:
