@@ -12,5 +12,5 @@ urlpatterns = [
     path('messages/', MessageList.as_view(), name='message-list'),
     path('contact/', contact_message, name='contact-message'),
     path('add_stocks/', add_stocks),
-    path('update_stock_data/', update_stock_data),
+    path('update_stock_data/<int:pk>', update_stock_data),
 ]

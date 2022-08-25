@@ -72,10 +72,11 @@ def add_stocks(req):
 #     print('Done')
 #     return Response({'message': 'success'})  
 
-@api_view(['POST'])
-def update_stock_data(req):
+@api_view(['GET'])
+def update_stock_data(req, pk, format=None):
     
-    num = req.num
+    num = pk
+
     all_stocks = Stock.objects.all()
 
     url1 = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&interval=5min&symbol=%s&apikey=%s' % (all_stocks[num].name, 'F2831YU5EBL9X0I')
