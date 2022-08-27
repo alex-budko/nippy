@@ -66,31 +66,27 @@ export default function Home() {
     });
   });
   return (
-    <Box maxW="7xl" mx={"auto"} pt={5} px={{ base: 2, sm: 12, md: 17 }}>
+    <Box maxW="7xl" mx={"auto"} px={{ base: 2, sm: 12, md: 17 }}>
       <Center>
         <HStack>
           <Heading
             textAlign={"center"}
             mb="3"
-            fontSize={"10vh"}
+            fontSize={["medium", "large", "x-large"]}
             fontWeight={"bold"}
           >
-            Weclome to{" "}
-          </Heading>
-          <Heading
-            textAlign={"center"}
-            mb="3"
-            color="blue.300"
-            fontSize={"10vh"}
-            fontWeight={"bold"}
-          >
-            Nippy!
+            Weclome to Nippy
           </Heading>
         </HStack>
       </Center>
 
       <Divider h="2" bgColor="blue.300" rounded="full" />
-      <Heading textAlign={"center"} mt="10" mb="5">
+      <Heading
+        fontSize={["medium", "large", "x-large"]}
+        textAlign={"center"}
+        mt="10"
+        mb="5"
+      >
         {" "}
         An Online Stock-Market Simulator
       </Heading>

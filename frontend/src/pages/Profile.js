@@ -128,7 +128,7 @@ function Profile() {
                 )}
               </Heading>
             </HStack>
-            <Wrap justify={"center"} spacing={5}>
+            <Wrap justify={"center"} spacing={3}>
               {profileUser.stocks !== {} &&
                 Object.keys(profileUser.stocks).map((stock_name, i) => {
                   if (profileUser.stocks[stock_name] <= 0) return <></>;
