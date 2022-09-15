@@ -7,7 +7,7 @@ function Privacy() {
     <VStack p='10' spacing={'3'} bgColor='gray.800' rounded={'3xl'} shadow='dark-lg'>
       <Heading size='xl'>Privacy Policy</Heading>
       <Divider />
-      <Text>Last updated: <i>August 19, 2022</i></Text>
+      <Text>Last updated: <i>September 15, 2022</i></Text>
       <Text>
         This Privacy Policy describes Our policies and procedures on the
         collection, use and disclosure of Your information when You use the
@@ -71,11 +71,10 @@ function Privacy() {
         <li>
           <Text>
             <strong>Service Provider</strong> means any natural or legal person
-            who processes the data on behalf of the Company. It refers to
-            third-party companies or individuals employed by the Company to
-            facilitate the Service, to provide the Service on behalf of the
-            Company, to perform services related to the Service or to assist the
-            Company in analyzing how the Service is used.
+            who processes the data on behalf of Nippy. It refers to
+            third-party  individuals employed by Nippy to
+            facilitate the Service, to provide the Service on behalf of Nippy, to perform services related to the Service or to assist 
+            Nippy in analyzing how the Service is used.
           </Text>
         </li>
         <li>
