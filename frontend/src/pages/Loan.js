@@ -14,6 +14,16 @@ import {
     WrapItem,
   } from "@chakra-ui/react";
   import React, { Fragment, useContext, useEffect, useState } from "react";
+
+    // Button,
+    // Center,
+    // Divider,
+    // Heading,
+    // NumberDecrementStepper,
+    // NumberIncrementStepper,
+    // NumberInput,
+    // NumberInputField,
+    // NumberInputStepper,
   
   //trading view widget
   import { SingleTicker } from "react-tradingview-embed";

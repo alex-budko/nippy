@@ -18,6 +18,9 @@ import { useEffect, useState } from "react";
 import { get_users } from "../action_functions/get_users";
 import { get_stocks } from "../action_functions/get_stocks";
 
+// import { get_users } from "../action_functions/get_users";
+// import { get_stocks } from "../action_functions/get_stocks";
+
 function StatsCard(props) {
   const { title, stat, icon } = props;
   return (
@@ -53,7 +56,7 @@ function StatsCard(props) {
 export default function Home() {
   const [userCount, setUserCount] = useState(0);
   const [stockCount, setStockCount] = useState(0);
-  const [engineerCount, setEngineerCount] = useState(1);
+  const [engineerCount, _] = useState(1);
 
   useEffect(() => {
     get_users().then((users) => {
