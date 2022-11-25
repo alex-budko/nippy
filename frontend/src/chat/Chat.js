@@ -61,7 +61,7 @@ function Chat() {
                 rounded="2xl"
                 shadow={"dark-lg"}
                 style={{
-                  marginBottom: `${i === messages.length - 1 ? 45 : 5}px`,
+                  marginBottom: `${i === messages.length - 1 ? 46 : 5}px`,
                 }}
               >
                 <VStack>
