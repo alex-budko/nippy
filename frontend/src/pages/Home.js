@@ -99,6 +99,7 @@ export default function Home() {
           stat={userCount}
           icon={<BsPerson size={"3em"} />}
         />
+        {/* Stocks Stats Card */}
         <StatsCard
           title={"Stocks"}
           stat={stockCount}
