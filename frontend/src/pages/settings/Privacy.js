@@ -7,7 +7,7 @@ function Privacy() {
     <VStack p='10' spacing={'3'} bgColor='gray.800' rounded={'3xl'} shadow='dark-lg'>
       <Heading size='xl'>Privacy Policy</Heading>
       <Divider />
-      <Text>Last updated: <i>November 25, 2022</i></Text>
+      <Text>Last updated: <i>December 31, 2022</i></Text>
       <Text>
         This Privacy Policy describes Our policies and procedures on the
         collection, use and disclosure of Your information when You use the
