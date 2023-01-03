@@ -70,7 +70,7 @@ function Short() {
     return_stock(username, e.target.name, quantity, setUser).then((res) => {});
   };
 
-  // gets stocks from the backend
+  // gets stocks from the backend, and set the slider and ticker values
   const getStocks = async () => {
     setStocks([]);
     get_stocks()
