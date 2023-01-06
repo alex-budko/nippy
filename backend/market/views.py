@@ -1,9 +1,7 @@
-import asyncio
-
 from .models import Message, Stock, UserAccount
 from .serializers import MessageSerializer, UserAccountSerializer, StockSerializer
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated, SAFE_METHODS, BasePermission, IsAdminUser
+from rest_framework.permissions import SAFE_METHODS, BasePermission
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
